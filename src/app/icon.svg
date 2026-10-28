@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#F4F3EE"/>
+  <rect x="4" y="4" width="56" height="56" fill="none" stroke="#141413" stroke-width="3"/>
+  <rect x="4" y="4" width="10" height="10" fill="#B8332A"/>
+  <text x="34" y="44" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#141413">KGM</text>
+</svg>

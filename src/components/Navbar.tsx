@@ -1,77 +1,89 @@
 "use client";
 
+import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
+import { useSectionIndex } from "./SiteShell";
 
-export type ViewScenario = "inicio" | "especialidades" | "protocolo" | "cotizacion";
-
-interface NavbarProps {
-  currentView: ViewScenario;
-  onNavigate: (view: ViewScenario) => void;
-}
-
-export default function Navbar({ currentView, onNavigate }: NavbarProps) {
-  const { identity, nav } = kgm;
-
-  const navItems: { label: string; view: ViewScenario }[] = [
-    { label: "Inicio", view: "inicio" },
-    { label: "Especialidades", view: "especialidades" },
-    { label: "Protocolo", view: "protocolo" },
-    { label: "Cotización", view: "cotizacion" },
-  ];
+export default function Navbar() {
+  const { identity, nav, sections } = kgm;
+  const index = useSectionIndex();
+  const onQuote = sections[index]?.href === "/cotizacion/";
 
   return (
     <header className="sticky top-0 z-40 border-b border-grain bg-canvas/95 backdrop-blur-md">
-      <nav aria-label="Principal" className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
-        {/* Brand identity & clean plain RUC */}
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            onClick={() => onNavigate("inicio")}
-            className="text-left font-serif text-xl tracking-tight text-ink transition-opacity hover:opacity-80"
-          >
-            {identity.name}
-          </button>
-          {/* Plain clean text for RUC, without badge border */}
-          <span className="hidden font-mono text-xs tracking-wider text-muted sm:inline-block">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex min-w-0 items-baseline gap-4">
+          <Link href="/" className="font-serif text-xl tracking-tight text-ink transition-opacity hover:opacity-80">
+            <span className="sm:hidden">{identity.shortName}</span>
+            <span className="hidden sm:inline">{identity.name}</span>
+          </Link>
+          <span className="hidden font-mono text-xs tabular-nums text-muted lg:inline">
             {nav.rucLabel} {identity.ruc}
           </span>
         </div>
 
-        {/* Desktop scenario navigation links */}
-        <ul className="hidden items-center gap-8 text-sm md:flex">
-          {navItems.map((item) => {
-            const isActive = currentView === item.view;
-            return (
-              <li key={item.view}>
-                <button
-                  type="button"
-                  onClick={() => onNavigate(item.view)}
-                  className={`relative py-1 font-mono text-xs uppercase tracking-wider transition-colors ${
-                    isActive
-                      ? "text-ink font-semibold after:absolute after:-bottom-1 after:left-0 after:right-0 after:h-[2px] after:bg-terracotta"
-                      : "text-muted hover:text-ink"
-                  }`}
-                >
-                  {item.label}
-                </button>
+        <nav aria-label="Principal" className="hidden md:block">
+          <ul className="flex items-center gap-8">
+            {sections.map((s, i) => (
+              <li key={s.href}>
+                <NavLink href={s.href} active={i === index}>
+                  {s.label}
+                </NavLink>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </nav>
 
-        {/* Action CTA */}
-        <button
-          type="button"
-          onClick={() => onNavigate("cotizacion")}
-          className={`rounded-[4px] border px-4 py-2 text-sm font-medium transition-all ${
-            currentView === "cotizacion"
-              ? "border-terracotta bg-terracotta-hover text-canvas shadow-sm"
-              : "border-terracotta bg-terracotta text-canvas hover:border-terracotta-hover hover:bg-terracotta-hover"
+        <Link
+          href="/cotizacion/"
+          aria-current={onQuote ? "page" : undefined}
+          className={`shrink-0 rounded-[4px] border border-terracotta px-3.5 py-2 text-sm font-medium text-canvas transition-colors sm:px-4 ${
+            onQuote ? "bg-terracotta-hover" : "bg-terracotta hover:border-terracotta-hover hover:bg-terracotta-hover"
           }`}
         >
-          {nav.cta}
-        </button>
+          <span className="sm:hidden">Cotizar</span>
+          <span className="hidden sm:inline">{nav.cta}</span>
+        </Link>
+      </div>
+
+      {/* Móvil: acceso directo a cada sección */}
+      <nav aria-label="Secciones (móvil)" className="border-t border-grain md:hidden">
+        <ul className="mx-auto flex max-w-7xl justify-between px-4">
+          {sections.map((s, i) => (
+            <li key={s.href}>
+              <NavLink href={s.href} active={i === index} compact>
+                {s.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </nav>
     </header>
+  );
+}
+
+function NavLink({
+  href,
+  active,
+  compact,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  compact?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      aria-current={active ? "page" : undefined}
+      className={`relative inline-block font-mono text-xs transition-colors ${compact ? "py-2.5" : "py-1"} ${
+        active
+          ? `font-semibold text-ink after:absolute after:inset-x-0 after:h-[2px] after:bg-terracotta ${compact ? "after:bottom-0" : "after:-bottom-1"}`
+          : "text-muted hover:text-ink"
+      }`}
+    >
+      {children}
+    </Link>
   );
 }

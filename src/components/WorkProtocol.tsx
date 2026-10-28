@@ -1,57 +1,57 @@
-"use client";
-
+import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
-import type { ViewScenario } from "./Navbar";
 
-interface WorkProtocolProps {
-  onNavigate?: (view: ViewScenario) => void;
-}
-
-export default function WorkProtocol({ onNavigate }: WorkProtocolProps) {
+export default function WorkProtocol() {
   const { protocol } = kgm;
 
   return (
-    <section className="bg-ink text-canvas py-16 lg:py-24">
+    <section className="bg-ink py-16 text-canvas lg:py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-16 grid gap-6 lg:grid-cols-12 items-end">
+        <header className="mb-16 grid items-end gap-6 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-4 flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-canvas/60">
-              <span className="inline-block h-2 w-2 bg-terracotta" />
-              Garantía Operativa y Mitigación de Riesgos
+            <p className="mb-4 flex items-center gap-2 font-mono text-xs text-canvas/70">
+              <span aria-hidden className="inline-block h-2 w-2 bg-terracotta" />
+              Garantía operativa y mitigación de riesgos
             </p>
-            <h2 className="font-serif text-3xl tracking-tight sm:text-4xl lg:text-5xl">{protocol.title}</h2>
+            <h1 className="font-serif text-3xl tracking-tight sm:text-4xl lg:text-5xl">{protocol.title}</h1>
           </div>
-          <p className="max-w-[52ch] text-canvas/70 text-base leading-relaxed lg:col-span-5">{protocol.intro}</p>
-        </div>
+          <p className="max-w-[52ch] text-base leading-relaxed text-canvas/75 lg:col-span-5">{protocol.intro}</p>
+        </header>
 
-        <ol className="grid divide-y divide-white/15 md:grid-cols-3 md:divide-x md:divide-y-0">
-          {protocol.steps.map((s) => (
-            <li key={s.code} className="py-8 first:pt-0 md:px-8 md:py-0 md:first:pl-0 md:last:pr-0">
-              <span className="font-serif text-5xl leading-none text-terracotta">{s.code}</span>
+        {/* Secuencia real: la numeración indica el orden de las etapas */}
+        <h2 className="sr-only">{protocol.stepsTitle}</h2>
+        <ol className="relative grid gap-10 md:grid-cols-3 md:gap-0">
+          {/* Línea de recorrido que une las tres etapas */}
+          <span aria-hidden className="absolute left-0 right-0 top-6 hidden h-px bg-white/20 md:block" />
+          {protocol.steps.map((s, i) => (
+            <li key={s.code} className="relative md:pr-10">
+              <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center border border-terracotta bg-ink font-serif text-2xl text-terracotta">
+                {s.code}
+              </span>
               <p className="mt-6 font-serif text-2xl leading-snug">{s.title}</p>
-              <p className="mt-3 max-w-[40ch] leading-relaxed text-canvas/70 text-sm">{s.description}</p>
+              <p className="mt-3 max-w-[38ch] text-sm leading-relaxed text-canvas/75">{s.description}</p>
+              {i < protocol.steps.length - 1 && (
+                <span aria-hidden className="absolute left-6 top-12 h-10 w-px bg-white/20 md:hidden" />
+              )}
             </li>
           ))}
         </ol>
 
         <div className="mt-20 border-t border-white/15 pt-12">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-            <h3 className="font-mono text-xs uppercase tracking-wider text-canvas/60">{protocol.risksTitle}</h3>
-            {onNavigate && (
-              <button
-                type="button"
-                onClick={() => onNavigate("cotizacion")}
-                className="font-mono text-xs uppercase tracking-wider text-terracotta hover:underline self-start sm:self-auto"
-              >
-                Solicitar ejecución bajo este protocolo →
-              </button>
-            )}
+          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+            <h2 className="font-mono text-xs text-canvas/70">{protocol.risksTitle}</h2>
+            <Link
+              href="/cotizacion/"
+              className="self-start rounded-[4px] border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover sm:self-auto"
+            >
+              Solicitar trabajo bajo este protocolo
+            </Link>
           </div>
-          <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
             {protocol.risks.map((r) => (
-              <li key={r.title} className="rounded border border-white/10 p-5 bg-white/[0.02]">
-                <p className="font-mono text-sm text-canvas font-medium">{r.title}</p>
-                <p className="mt-2 text-xs leading-relaxed text-canvas/70">{r.description}</p>
+              <li key={r.title} className="bg-ink p-5">
+                <p className="font-serif text-lg text-canvas">{r.title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-canvas/75">{r.description}</p>
               </li>
             ))}
           </ul>
