@@ -1,0 +1,62 @@
+name: Vista previa en GitHub Pages
+
+# Cada push a una rama "mejora/**" compila el sitio y lo publica en la
+# subcarpeta /preview/ de la rama gh-pages:
+#   https://gegecam30.github.io/kgm/preview/
+# La web publicada (raíz de gh-pages) no se modifica.
+
+on:
+  push:
+    branches: ["mejora/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "preview"
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de la rama
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar vista previa
+        env:
+          NEXT_BASE_PATH: /kgm/preview
+          NEXT_PUBLIC_NOINDEX: "1"
+        run: npm run build
+
+      - name: Checkout de gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Copiar a /preview y publicar
+        run: |
+          rm -rf gh-pages/preview
+          cp -r out gh-pages/preview
+          touch gh-pages/.nojekyll
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Sin cambios en la vista previa."
+          else
+            git commit -m "preview: ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}"
+            git push origin gh-pages
+          fi

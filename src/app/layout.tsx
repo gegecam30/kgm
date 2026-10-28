@@ -24,6 +24,8 @@ export const metadata: Metadata = {
     type: "website",
   },
   twitter: { card: "summary_large_image", title: kgm.seo.title, description: kgm.seo.description },
+  // La vista previa no debe indexarse: su canonical ya apunta a la web publicada.
+  ...(process.env.NEXT_PUBLIC_NOINDEX ? { robots: { index: false, follow: false } } : {}),
 };
 
 export const viewport: Viewport = {
