@@ -70,9 +70,9 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       {/* Barra técnica inferior: índice de secciones y paso anterior/siguiente */}
       <nav
         aria-label="Secciones"
-        className="fixed inset-x-0 bottom-0 z-40 h-14 border-t border-grain bg-canvas/95 backdrop-blur-md"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-grain bg-canvas/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md"
       >
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <p className="flex min-w-0 items-center gap-3 font-mono text-xs">
             <span className="font-semibold tabular-nums text-ink">
               [ {index >= 0 ? SECTIONS[index].code : "--"} / {String(SECTIONS.length).padStart(2, "0")} ]
@@ -115,7 +115,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 function StepLink({ section, direction }: { section: (typeof SECTIONS)[number] | null; direction: "prev" | "next" }) {
   const label = direction === "prev" ? "Anterior" : "Siguiente";
   const base =
-    "inline-flex items-center gap-1.5 rounded-[2px] border border-grain px-3 py-1.5 font-mono text-xs text-ink transition-colors";
+    "inline-flex min-h-10 items-center gap-1.5 rounded-[2px] border border-grain px-3 font-mono text-xs text-ink transition-colors";
   const content = (
     <>
       {direction === "prev" && <span aria-hidden>←</span>}
@@ -141,7 +141,7 @@ function SiteFooter() {
   const { identity, footerNote } = kgm;
   return (
     // pb-20 deja espacio para la barra inferior fija
-    <footer className="border-t border-grain pb-20">
+    <footer className="border-t border-grain pb-[calc(4.5rem+env(safe-area-inset-bottom))]">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-6 font-mono text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
         <p>
           © {new Date().getFullYear()} {identity.name} · RUC {identity.ruc}

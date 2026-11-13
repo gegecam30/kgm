@@ -11,9 +11,9 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-grain bg-canvas/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-3 sm:px-6 sm:py-4">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:gap-6 sm:px-6 sm:py-3">
         <div className="flex min-w-0 items-baseline gap-4">
-          <Link href="/" className="font-serif text-xl tracking-tight text-ink transition-opacity hover:opacity-80">
+          <Link href="/" className="py-2 font-serif text-xl tracking-tight text-ink transition-opacity hover:opacity-80">
             <span className="sm:hidden">{identity.shortName}</span>
             <span className="hidden sm:inline">{identity.name}</span>
           </Link>
@@ -37,7 +37,7 @@ export default function Navbar() {
         <Link
           href="/cotizacion/"
           aria-current={onQuote ? "page" : undefined}
-          className={`shrink-0 rounded-[4px] border border-terracotta px-3.5 py-2 text-sm font-medium text-canvas transition-colors sm:px-4 ${
+          className={`inline-flex min-h-11 shrink-0 items-center rounded-[4px] border border-terracotta px-4 text-sm font-medium text-canvas transition-colors sm:px-4 ${
             onQuote ? "bg-terracotta-hover" : "bg-terracotta hover:border-terracotta-hover hover:bg-terracotta-hover"
           }`}
         >
@@ -77,7 +77,7 @@ function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`relative inline-block font-mono text-xs transition-colors ${compact ? "py-2.5" : "py-1"} ${
+      className={`relative inline-flex items-center font-mono text-xs transition-colors ${compact ? "min-h-11 px-1" : "py-1"} ${
         active
           ? `font-semibold text-ink after:absolute after:inset-x-0 after:h-[2px] after:bg-terracotta ${compact ? "after:bottom-0" : "after:-bottom-1"}`
           : "text-muted hover:text-ink"

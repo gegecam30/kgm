@@ -92,8 +92,8 @@ export default function QuoteSection() {
           <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-muted">{contact.intro}</p>
         </header>
 
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="rounded-[4px] border border-grain bg-surface/30 p-6 sm:p-8 lg:col-span-7">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="min-w-0 rounded-[4px] border border-grain bg-surface/30 p-5 sm:p-8 lg:col-span-7">
             <h2 className="mb-6 font-mono text-xs font-medium text-terracotta">Pliego de requerimiento técnico</h2>
 
             <form onSubmit={onSubmit} className="grid gap-6 sm:grid-cols-2">
@@ -126,7 +126,7 @@ export default function QuoteSection() {
                 <div className="flex flex-wrap items-center gap-4">
                   <button
                     type="submit"
-                    className="rounded-[4px] border border-terracotta bg-terracotta px-6 py-3.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+                    className="w-full rounded-[4px] border border-terracotta bg-terracotta px-6 py-3.5 text-sm font-medium text-canvas sm:w-auto transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
                   >
                     {form.submit}
                   </button>
@@ -138,10 +138,10 @@ export default function QuoteSection() {
                       <p>{form.success}</p>
                       <p className="mt-1 text-muted">
                         {form.fallback}{" "}
-                        <a href={`mailto:${contact.email}`} className="font-medium text-ink underline underline-offset-4">
+                        <a href={`mailto:${contact.email}`} className="inline-block break-all py-1 font-medium text-ink underline underline-offset-4">
                           {contact.email}
                         </a>{" "}
-                        <button type="button" onClick={copyEmail} className="ml-1 font-mono text-xs text-terracotta underline-offset-4 hover:underline">
+                        <button type="button" onClick={copyEmail} className="ml-1 min-h-10 px-1 font-mono text-xs text-terracotta underline-offset-4 hover:underline">
                           {copied ? "Copiado" : "Copiar"}
                         </button>
                       </p>
@@ -152,7 +152,7 @@ export default function QuoteSection() {
             </form>
           </div>
 
-          <aside className="rounded-[4px] border border-grain bg-paper p-6 sm:p-8 lg:col-span-5" aria-labelledby="sede">
+          <aside className="min-w-0 rounded-[4px] border border-grain bg-paper p-5 sm:p-8 lg:col-span-5" aria-labelledby="sede">
             <h2 id="sede" className="border-b border-grain pb-3 font-mono text-xs font-medium text-terracotta">
               {contact.legalTitle}
             </h2>
@@ -170,7 +170,7 @@ export default function QuoteSection() {
                   <dt className={labelClass}>{label}</dt>
                   <dd className="mt-1 text-sm leading-relaxed text-ink">
                     {href ? (
-                      <a href={href} className="underline decoration-grain underline-offset-4 hover:decoration-terracotta">
+                      <a href={href} className="inline-block break-all py-1 underline decoration-grain underline-offset-4 hover:decoration-terracotta">
                         {value}
                       </a>
                     ) : (

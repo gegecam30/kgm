@@ -14,26 +14,26 @@ export default function HeroEditorial() {
   return (
     <>
       <section className="border-b border-grain">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 lg:grid-cols-12 lg:gap-16 lg:py-24">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-10 sm:py-14 lg:grid-cols-12 lg:gap-16 lg:py-24">
           <div className="lg:col-span-7">
             <p className="mb-8 flex items-center gap-3 font-mono text-xs text-muted">
               <span aria-hidden className="inline-block h-2 w-2 bg-terracotta" />
               {hero.eyebrow}
             </p>
-            <h1 className="max-w-[20ch] text-balance [hyphens:auto] sm:[hyphens:manual] font-serif text-4xl leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.75rem]">
+            <h1 className="max-w-[20ch] text-balance break-words font-serif text-[2rem] leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.75rem]">
               {hero.headline}
             </h1>
-            <p className="mt-8 max-w-[52ch] font-serif text-lg leading-relaxed text-muted sm:text-xl">{hero.summary}</p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <p className="mt-6 max-w-[52ch] font-serif text-lg leading-relaxed text-muted sm:mt-8 sm:text-xl">{hero.summary}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
               <Link
                 href="/cotizacion/"
-                className="rounded-[4px] border border-terracotta bg-terracotta px-5 py-3 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+                className="rounded-[4px] border border-terracotta bg-terracotta px-5 py-3.5 text-center text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
               >
                 {hero.primaryCta}
               </Link>
               <Link
                 href="/especialidades/"
-                className="rounded-[4px] border border-rule px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-surface"
+                className="rounded-[4px] border border-rule px-5 py-3.5 text-center text-sm font-medium text-ink transition-colors hover:bg-surface"
               >
                 {hero.secondaryCta}
               </Link>
@@ -69,13 +69,13 @@ export default function HeroEditorial() {
                       i === cells.length - 1 && i % 2 === 0 ? "col-span-2" : i % 2 === 0 ? "border-r" : ""
                     }`}
                   >
-                    <dt className="font-mono text-[0.6875rem] text-muted">{c.label}</dt>
+                    <dt className="font-mono text-xs text-muted">{c.label}</dt>
                     <dd className="mt-1 text-sm font-medium leading-snug text-ink">{c.value}</dd>
                   </div>
                 ))}
                 {sede && (
                   <div className="col-span-2 border-b border-ink px-4 py-3">
-                    <dt className="font-mono text-[0.6875rem] text-muted">{sede.label}</dt>
+                    <dt className="font-mono text-xs text-muted">{sede.label}</dt>
                     <dd className="mt-1 text-sm font-medium leading-snug text-ink">{sede.value}</dd>
                   </div>
                 )}
@@ -83,15 +83,15 @@ export default function HeroEditorial() {
 
               <dl className="grid grid-cols-3 font-mono text-xs">
                 <div className="border-r border-grain px-4 py-2.5">
-                  <dt className="text-[0.6875rem] text-muted">Años en operación</dt>
+                  <dt className="text-xs text-muted">Años en operación</dt>
                   <dd className="mt-0.5 text-base font-semibold tabular-nums text-terracotta">{years}</dd>
                 </div>
                 <div className="border-r border-grain px-4 py-2.5">
-                  <dt className="text-[0.6875rem] text-muted">Actividad</dt>
+                  <dt className="text-xs text-muted">Actividad</dt>
                   <dd className="mt-0.5 tabular-nums text-ink">{identity.ciiu.map((c) => c.replace("CIIU ", "")).join(" / ")}</dd>
                 </div>
                 <div className="px-4 py-2.5">
-                  <dt className="text-[0.6875rem] text-muted">Ámbito</dt>
+                  <dt className="text-xs text-muted">Ámbito</dt>
                   <dd className="mt-0.5 text-ink">Lima</dd>
                 </div>
               </dl>
@@ -102,12 +102,12 @@ export default function HeroEditorial() {
 
       {/* Índice de especialidades: acceso directo a cada pilar */}
       <section aria-labelledby="indice-especialidades" className="border-b border-grain">
-        <div className="mx-auto max-w-7xl px-6 py-12 lg:py-16">
+        <div className="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:py-16">
           <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
             <h2 id="indice-especialidades" className="font-serif text-2xl tracking-tight sm:text-3xl">
               Especialidades
             </h2>
-            <Link href="/especialidades/" className="font-mono text-xs text-muted underline-offset-4 hover:text-ink hover:underline">
+            <Link href="/especialidades/" className="py-2 font-mono text-xs text-muted underline underline-offset-4 decoration-grain hover:text-ink hover:decoration-terracotta">
               Ver los cuatro esquemas técnicos
             </Link>
           </div>

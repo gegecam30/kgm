@@ -22,6 +22,7 @@ export default function ServicesGrid() {
   const items = services.items;
   const [active, setActive] = useState(items[0].slug);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   // La especialidad activa vive en el hash (#bombeo, #redes…) para poder enlazarla y compartirla.
   useEffect(() => {
@@ -34,10 +35,16 @@ export default function ServicesGrid() {
     return () => window.removeEventListener("hashchange", fromHash);
   }, [items]);
 
-  const select = useCallback((slug: string) => {
-    setActive(slug);
-    window.history.replaceState(null, "", `#${slug}`);
-  }, []);
+  const select = useCallback(
+    (slug: string) => {
+      setActive(slug);
+      window.history.replaceState(null, "", `#${slug}`);
+      const i = items.findIndex((s) => s.slug === slug);
+      tabRefs.current[i]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+      scrollerRef.current?.scrollTo({ left: 0 });
+    },
+    [items]
+  );
 
   // Patrón de pestañas WAI-ARIA: flechas, Inicio y Fin mueven el foco y la selección.
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
@@ -78,12 +85,11 @@ export default function ServicesGrid() {
           </div>
         </header>
 
-        <div className="grid items-start gap-8 lg:grid-cols-12">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-12 lg:gap-8">
           <div
             role="tablist"
             aria-label="Especialidades"
-            aria-orientation="vertical"
-            className="grid gap-3 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1"
+            className="-mx-6 flex min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-6 px-6 pb-2 [scrollbar-width:none] lg:col-span-5 lg:mx-0 lg:grid lg:grid-cols-1 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
           >
             {items.map((s, i) => {
               const selected = s.slug === current.slug;
@@ -101,14 +107,14 @@ export default function ServicesGrid() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => select(s.slug)}
                   onKeyDown={(e) => onKeyDown(e, i)}
-                  className={`animate-hydraulic-${i} relative rounded-[4px] border p-5 text-left transition-colors ${
+                  className={`animate-hydraulic-${i} relative w-[14.5rem] shrink-0 snap-start rounded-[4px] border p-4 text-left transition-colors lg:w-auto lg:p-5 ${
                     selected
                       ? "border-terracotta bg-paper before:absolute before:inset-y-3 before:left-0 before:w-[3px] before:bg-terracotta"
                       : "border-grain bg-surface/40 hover:border-rule hover:bg-surface"
                   }`}
                 >
                   <span className="flex items-baseline justify-between gap-4">
-                    <span className={`font-serif text-3xl tracking-tight ${selected ? "text-terracotta" : "text-ink"}`}>
+                    <span className={`font-serif text-2xl tracking-tight lg:text-3xl ${selected ? "text-terracotta" : "text-ink"}`}>
                       {s.code}
                     </span>
                     {s.ciiu && (
@@ -117,10 +123,10 @@ export default function ServicesGrid() {
                       </span>
                     )}
                   </span>
-                  <span className="mt-2.5 block font-serif text-lg font-medium leading-snug tracking-tight text-ink">
+                  <span className="mt-2 block font-serif text-base font-medium leading-snug tracking-tight text-ink lg:mt-2.5 lg:text-lg">
                     {s.title}
                   </span>
-                  <span className={`mt-1.5 block text-sm leading-relaxed text-muted ${selected ? "" : "line-clamp-2"}`}>
+                  <span className={`mt-1.5 hidden text-sm leading-relaxed text-muted lg:block ${selected ? "" : "lg:line-clamp-2"}`}>
                     {s.description}
                   </span>
                 </button>
@@ -132,7 +138,7 @@ export default function ServicesGrid() {
             id="panel-especialidad"
             role="tabpanel"
             aria-labelledby={`tab-${current.slug}`}
-            className="rounded-[4px] border border-grain bg-paper p-5 sm:p-7 lg:sticky lg:top-24 lg:col-span-7"
+            className="min-w-0 rounded-[4px] border border-grain bg-paper p-4 sm:p-7 lg:sticky lg:top-24 lg:col-span-7"
           >
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-grain pb-4">
               <div>
@@ -150,11 +156,27 @@ export default function ServicesGrid() {
                   {status}
                 </span>
               </div>
-              <div key={current.slug} className="diagram-enter p-3 sm:p-4">
-                <Component />
+              <div className="relative">
+                <div
+                  ref={scrollerRef}
+                  tabIndex={0}
+                  aria-label="Esquema técnico; deslice horizontalmente para recorrerlo"
+                  className="overflow-x-auto overscroll-x-contain focus-visible:outline-offset-[-2px] sm:overflow-visible"
+                >
+                  <div key={current.slug} className="diagram-enter min-w-[38rem] p-3 sm:min-w-0 sm:p-4">
+                    <Component />
+                  </div>
+                </div>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-canvas to-transparent sm:hidden"
+                />
               </div>
             </figure>
-            <p className="mt-3 text-xs leading-relaxed text-muted">
+            <p className="mt-2 flex items-center gap-2 font-mono text-xs text-muted sm:hidden">
+              <span aria-hidden>↔</span> Deslice para recorrer el esquema completo
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-muted sm:mt-3">
               Dibujo de referencia. Las cifras son orientativas y no corresponden a una instalación concreta.
             </p>
 
@@ -162,7 +184,7 @@ export default function ServicesGrid() {
               <p className="max-w-md text-sm leading-relaxed text-ink">{current.description}</p>
               <Link
                 href={`/cotizacion/?area=${current.slug}`}
-                className="shrink-0 whitespace-nowrap rounded-[4px] border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+                className="shrink-0 rounded-[4px] text-center sm:whitespace-nowrap border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
               >
                 Cotizar esta especialidad
               </Link>
