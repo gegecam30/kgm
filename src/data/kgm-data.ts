@@ -18,6 +18,23 @@ export interface Specialty {
 }
 export interface ProtocolStep { code: string; title: string; description: string }
 export interface Risk { title: string; description: string }
+export interface GalleryItem {
+  /**
+   * Ruta de la foto dentro de /public (ej. "/galeria/cuarto-de-bombas.jpg").
+   * Vacía = se muestra el marco "Foto pendiente".
+   */
+  src: string;
+  /**
+   * Versión diminuta y borrosa de la misma foto (ej. "/galeria/cuarto-de-bombas-mini.jpg", ~40 px de ancho).
+   * Opcional: se ve mientras carga la foto grande, útil con mala señal.
+   */
+  lqip?: string;
+  alt: string;
+  caption: string;
+  /** slug de la especialidad relacionada */
+  specialty: string;
+}
+export interface NavLink { href: string; label: string }
 export interface Section { href: string; code: string; label: string; title: string; description: string }
 
 export interface KgmData {
@@ -25,10 +42,12 @@ export interface KgmData {
   site: { origin: string; basePath: string };
   seo: { title: string; description: string; keywords: string[] };
   sections: Section[];
-  nav: { rucLabel: string; cta: string };
+  nav: { rucLabel: string; cta: string; links: NavLink[] };
   hero: { eyebrow: string; headline: string; summary: string; primaryCta: string; secondaryCta: string; credentialsTitle: string };
   credentials: Credential[];
   services: { title: string; intro: string; items: Specialty[] };
+  gallery: { eyebrow: string; title: string; intro: string; items: GalleryItem[] };
+  closing: { title: string; text: string };
   diagnosis: { eyebrow: string; title: string; intro: string; empty: string; cta: string; scopeHeading: string };
   protocol: { title: string; intro: string; risksTitle: string; risks: Risk[]; stepsTitle: string; steps: ProtocolStep[] };
   contact: {
@@ -38,6 +57,15 @@ export interface KgmData {
     labels: { address: string; email: string; phone: string; whatsapp: string; hours: string };
     address: string;
     email: string;
+    /** Enlace a Google Maps de la sede. */
+    mapsUrl: string;
+    /**
+     * Endpoint de un servicio de formularios (Formspree, Web3Forms…) que recibe POST en JSON.
+     * Vacío = el formulario abre el programa de correo del visitante (mailto).
+     */
+    formEndpoint: string;
+    /** URL del Libro de Reclamaciones virtual. Vacío = no se muestra en el pie. */
+    complaintsBookUrl: string;
     /**
      * Teléfono público, formato libre (ej. "+51 1 234 5678").
      * Dejar vacío para ocultarlo: el sitio no muestra datos de relleno.
@@ -53,9 +81,11 @@ export interface KgmData {
       name: string; company: string; email: string; phone: string; area: string; scope: string;
       scopePlaceholder: string; submit: string; success: string; fallback: string;
       subjectPrefix: string;
+      send: string; sending: string; sentOk: string; error: string; privacyNote: string;
     };
   };
   footerNote: string;
+  footer: { about: string };
 }
 
 const services: Specialty[] = [
@@ -168,6 +198,12 @@ export const kgm: KgmData = {
   nav: {
     rucLabel: "RUC",
     cta: "Solicitar cotización",
+    links: [
+      { href: "/especialidades/", label: "Especialidades" },
+      { href: "/protocolo/", label: "Protocolo" },
+      { href: "/#trabajos", label: "Trabajos" },
+      { href: "/cotizacion/", label: "Cotización" },
+    ],
   },
   hero: {
     eyebrow: "Operaciones en Lima desde 2014",
@@ -192,6 +228,24 @@ export const kgm: KgmData = {
     title: "Cuatro especialidades, un mismo estándar de ejecución.",
     intro: "Cada frente de trabajo se cotiza y se entrega con especificaciones técnicas y conformidad por escrito.",
     items: services,
+  },
+  gallery: {
+    eyebrow: "Trabajos realizados",
+    title: "Instalaciones que mantenemos",
+    intro: "Registro fotográfico de intervenciones en edificios, oficinas e instituciones de Lima.",
+    // TODO: colocar las fotos en public/galeria/ y completar src (y opcionalmente lqip).
+    items: [
+      { src: "", alt: "Cuarto de bombas con electrobombas y tablero alternador", caption: "Mantenimiento de electrobombas y tablero alternador", specialty: "bombeo" },
+      { src: "", alt: "Cisterna limpia después de la desinfección", caption: "Limpieza y desinfección de cisterna", specialty: "bombeo" },
+      { src: "", alt: "Oficina remodelada con divisiones de drywall", caption: "Remodelación de oficinas en drywall", specialty: "acondicionamiento" },
+      { src: "", alt: "Piso con pintura epóxica en área industrial", caption: "Pintura epóxica en piso industrial", specialty: "acondicionamiento" },
+      { src: "", alt: "Tablero eléctrico general después del mantenimiento", caption: "Mantenimiento de tablero general", specialty: "redes" },
+      { src: "", alt: "Tuberías de termofusión PPR instaladas", caption: "Red de agua en termofusión PPR", specialty: "redes" },
+    ],
+  },
+  closing: {
+    title: "¿Necesita una inspección técnica?",
+    text: "Cuéntenos qué ocurre en su instalación y coordinamos la visita en Lima Metropolitana.",
   },
   diagnosis: {
     eyebrow: "Diagnóstico rápido",
@@ -226,6 +280,11 @@ export const kgm: KgmData = {
     address: "Av. La Paz 2420, Urb. Miramar, San Miguel, Lima, Perú",
     // TODO: confirmar que este buzón existe y recibe correo antes de publicar.
     email: "contacto@kgmindustrias.com.pe",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Av.+La+Paz+2420+San+Miguel+Lima",
+    // TODO: crear el formulario en Formspree (o similar) y pegar aquí su URL, ej. "https://formspree.io/f/xxxxxx".
+    formEndpoint: "",
+    // TODO: URL del Libro de Reclamaciones virtual.
+    complaintsBookUrl: "",
     // TODO: completar con el número real. Vacío = no se muestra.
     phone: "",
     // TODO: completar con el número de WhatsApp (solo dígitos, con 51). Vacío = no se muestra.
@@ -243,9 +302,18 @@ export const kgm: KgmData = {
       success: "Su programa de correo se abrió con la solicitud lista. Revísela y envíela desde ahí.",
       fallback: "¿No se abrió? Escríbanos directamente a",
       subjectPrefix: "Solicitud de cotización técnica",
+      send: "Enviar solicitud",
+      sending: "Enviando…",
+      sentOk: "Recibimos su solicitud. Le responderemos con una fecha para la inspección.",
+      error: "No se pudo enviar. Revise su conexión o escríbanos directamente a",
+      privacyNote: "Usaremos estos datos solo para responder su solicitud.",
     },
   },
   footerNote: "Todos los derechos reservados.",
+  footer: {
+    about:
+      "Mantenimiento de sistemas de bombeo, acondicionamiento de edificios y redes sanitarias y eléctricas en Lima Metropolitana desde 2014.",
+  },
 };
 
 /** Años completos desde el inicio de operaciones (se calcula al generar el sitio). */
@@ -289,4 +357,9 @@ export function suggestSpecialty(ids: readonly string[]): Specialty | null {
     }
   }
   return best;
+}
+
+/** Prefijo de rutas para recursos de /public que no pasan por next/link ni next/image. */
+export function publicPath(path: string): string {
+  return `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
 }

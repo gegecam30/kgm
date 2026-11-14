@@ -25,11 +25,10 @@ export default function QuickDiagnosis() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:py-16">
         <header className="mb-8 grid gap-4 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 flex items-center gap-2 font-mono text-xs text-muted">
-              <span aria-hidden className="inline-block h-2 w-2 bg-terracotta" />
+            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
               {diagnosis.eyebrow}
             </p>
-            <h2 id="diagnostico" className="text-balance font-serif text-2xl tracking-tight sm:text-3xl">
+            <h2 id="diagnostico" className="text-balance font-display text-2xl tracking-tight sm:text-3xl">
               {diagnosis.title}
             </h2>
           </div>
@@ -42,7 +41,7 @@ export default function QuickDiagnosis() {
             return (
               <fieldset key={s.slug} className={`min-w-0 p-5 transition-colors ${highlighted ? "bg-paper" : "bg-canvas"}`}>
                 <legend className="float-left mb-4 flex w-full items-baseline gap-2 font-mono text-xs">
-                  <span className={highlighted ? "font-semibold text-terracotta" : "text-muted"}>{s.code}</span>
+                  <span className={highlighted ? "font-semibold text-accent" : "text-muted"}>{s.code}</span>
                   <span className="text-ink">{s.title}</span>
                 </legend>
                 <ul className="clear-left grid gap-2">
@@ -52,14 +51,14 @@ export default function QuickDiagnosis() {
                       <li key={x.id}>
                         <label
                           className={`flex cursor-pointer items-start gap-3 rounded-[4px] border px-3 py-2.5 text-sm leading-snug transition-colors ${
-                            checked ? "border-terracotta bg-paper text-ink" : "border-grain text-muted hover:border-rule hover:text-ink"
+                            checked ? "border-accent bg-paper text-ink" : "border-grain text-muted hover:border-rule hover:text-ink"
                           }`}
                         >
                           <input
                             type="checkbox"
                             checked={checked}
                             onChange={() => toggle(x.id)}
-                            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-terracotta"
+                            className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-accent"
                           />
                           {x.label}
                         </label>
@@ -89,7 +88,7 @@ export default function QuickDiagnosis() {
           {suggestion ? (
             <Link
               href={href}
-              className="shrink-0 rounded-[4px] border border-terracotta bg-terracotta px-5 py-3 text-center text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+              className="shrink-0 rounded-[4px] border border-accent bg-accent px-5 py-3 text-center text-sm font-medium text-canvas transition-colors hover:border-accent-hover hover:bg-accent-hover"
             >
               {diagnosis.cta}
             </Link>

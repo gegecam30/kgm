@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Newsreader, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { kgm, absoluteUrl } from "@/data/kgm-data";
 import SiteShell from "@/components/SiteShell";
 import "./globals.css";
 
-const serif = Newsreader({ subsets: ["latin"], variable: "--font-serif", display: "swap" });
-const sans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
+const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
   // Solo el origen: las rutas que genera Next ya incluyen el basePath.
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F4F3EE",
+  themeColor: "#0F2A3D",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -57,7 +56,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-PE" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="es-PE" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <a
           href="#contenido"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import Link from "next/link";
 import { kgm, findSymptoms, whatsappHref } from "@/data/kgm-data";
 
 interface QuoteForm {
@@ -13,7 +14,7 @@ interface QuoteForm {
 }
 
 const fieldClass =
-  "w-full rounded-[4px] border border-rule bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-terracotta focus:outline-none focus:ring-1 focus:ring-terracotta sm:text-sm";
+  "w-full rounded-[4px] border border-rule bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:text-sm";
 const labelClass = "font-mono text-xs text-muted";
 
 export default function QuoteSection() {
@@ -29,8 +30,10 @@ export default function QuoteSection() {
     area: options[0].slug,
     scope: "",
   });
-  const [sent, setSent] = useState(false);
+  // "sent" = se abrió el correo (mailto) · "ok" = el servicio de formularios confirmó la recepción
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "ok" | "error">("idle");
   const [copied, setCopied] = useState(false);
+  const useEndpoint = Boolean(contact.formEndpoint);
 
   // Preselecciona la especialidad cuando se llega desde "Cotizar esta especialidad" (?area=redes)
   // y, si viene del diagnóstico rápido (?sintomas=fuga,tablero), deja los síntomas en el alcance.
@@ -50,8 +53,22 @@ export default function QuoteSection() {
 
   const areaTitle = options.find((o) => o.slug === values.area)?.title ?? "";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (useEndpoint) {
+      setStatus("sending");
+      try {
+        const res = await fetch(contact.formEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ ...values, area: areaTitle, _subject: `${form.subjectPrefix}: ${areaTitle}` }),
+        });
+        setStatus(res.ok ? "ok" : "error");
+      } catch {
+        setStatus("error");
+      }
+      return;
+    }
     const subject = `${form.subjectPrefix}: ${areaTitle}`;
     const body = [
       `${form.name}: ${values.name}`,
@@ -66,7 +83,7 @@ export default function QuoteSection() {
       .filter((l): l is string => l !== null)
       .join("\n");
     window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    setStatus("sent");
   };
 
   const copyEmail = async () => {
@@ -91,17 +108,16 @@ export default function QuoteSection() {
     <section className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-12 border-b border-grain pb-8">
-          <p className="mb-3 flex items-center gap-2 font-mono text-xs text-muted">
-            <span aria-hidden className="inline-block h-2 w-2 bg-terracotta" />
-            Atención directa en Lima Metropolitana
+          <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+              Atención directa en Lima Metropolitana
           </p>
-          <h1 className="font-serif text-3xl tracking-tight sm:text-4xl lg:text-5xl">{contact.title}</h1>
+          <h1 className="font-display text-3xl tracking-tight sm:text-4xl lg:text-5xl">{contact.title}</h1>
           <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-muted">{contact.intro}</p>
         </header>
 
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="min-w-0 rounded-[4px] border border-grain bg-surface/30 p-5 sm:p-8 lg:col-span-7">
-            <h2 className="mb-6 font-mono text-xs font-medium text-terracotta">Pliego de requerimiento técnico</h2>
+            <h2 className="mb-6 font-mono text-xs font-medium text-accent">Pliego de requerimiento técnico</h2>
 
             <form onSubmit={onSubmit} className="grid gap-6 sm:grid-cols-2">
               <Field label={form.name}>
@@ -133,22 +149,36 @@ export default function QuoteSection() {
                 <div className="flex flex-wrap items-center gap-4">
                   <button
                     type="submit"
-                    className="w-full rounded-[4px] border border-terracotta bg-terracotta px-6 py-3.5 text-sm font-medium text-canvas sm:w-auto transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+                    disabled={status === "sending"}
+                    className="w-full rounded-[4px] border border-accent bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
                   >
-                    {form.submit}
+                    {useEndpoint ? (status === "sending" ? form.sending : form.send) : form.submit}
                   </button>
-                  {!sent && <p className="text-sm text-muted">Se abrirá su programa de correo con los datos completos.</p>}
+                  {status === "idle" && !useEndpoint && (
+                    <p className="text-sm text-muted">Se abrirá su programa de correo con los datos completos.</p>
+                  )}
                 </div>
+                <p className="text-xs text-muted">
+                  {form.privacyNote}{" "}
+                  <Link href="/privacidad/" className="underline underline-offset-4 hover:text-ink">
+                    Política de privacidad
+                  </Link>
+                </p>
                 <div role="status" aria-live="polite">
-                  {sent && (
-                    <div className="rounded-[2px] border-l-[3px] border-terracotta bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
-                      <p>{form.success}</p>
-                      <p className="mt-1 text-muted">
-                        {form.fallback}{" "}
+                  {status === "ok" && (
+                    <div className="rounded-[2px] border-l-[3px] border-signal bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
+                      {form.sentOk}
+                    </div>
+                  )}
+                  {(status === "sent" || status === "error") && (
+                    <div className="rounded-[2px] border-l-[3px] border-accent bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
+                      {status === "sent" && <p>{form.success}</p>}
+                      <p className={status === "sent" ? "mt-1 text-muted" : ""}>
+                        {status === "sent" ? form.fallback : form.error}{" "}
                         <a href={`mailto:${contact.email}`} className="inline-block break-all py-1 font-medium text-ink underline underline-offset-4">
                           {contact.email}
                         </a>{" "}
-                        <button type="button" onClick={copyEmail} className="ml-1 min-h-10 px-1 font-mono text-xs text-terracotta underline-offset-4 hover:underline">
+                        <button type="button" onClick={copyEmail} className="ml-1 min-h-10 px-1 font-mono text-xs text-accent underline-offset-4 hover:underline">
                           {copied ? "Copiado" : "Copiar"}
                         </button>
                       </p>
@@ -160,12 +190,12 @@ export default function QuoteSection() {
           </div>
 
           <aside className="min-w-0 rounded-[4px] border border-grain bg-paper p-5 sm:p-8 lg:col-span-5" aria-labelledby="sede">
-            <h2 id="sede" className="border-b border-grain pb-3 font-mono text-xs font-medium text-terracotta">
+            <h2 id="sede" className="border-b border-grain pb-3 font-mono text-xs font-medium text-accent">
               {contact.legalTitle}
             </h2>
 
             <div className="mt-6 border-b border-grain pb-5">
-              <p className="font-serif text-2xl leading-snug tracking-tight">{identity.name}</p>
+              <p className="font-display text-2xl leading-snug tracking-tight">{identity.name}</p>
               <p className="mt-1 font-mono text-sm tabular-nums text-muted">
                 RUC {identity.ruc} · {identity.status}
               </p>
@@ -177,7 +207,7 @@ export default function QuoteSection() {
                   <dt className={labelClass}>{label}</dt>
                   <dd className="mt-1 text-sm leading-relaxed text-ink">
                     {href ? (
-                      <a href={href} className="inline-block break-all py-1 underline decoration-grain underline-offset-4 hover:decoration-terracotta">
+                      <a href={href} className="inline-block break-all py-1 underline decoration-grain underline-offset-4 hover:decoration-accent">
                         {value}
                       </a>
                     ) : (

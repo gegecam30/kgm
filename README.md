@@ -11,6 +11,7 @@ Next.js 14 (App Router) + Tailwind CSS, exportado como sitio estático y publica
 | `/` | Presentación, ficha técnica (cajetín) e índice de especialidades |
 | `/especialidades/` | Las cuatro especialidades con su esquema técnico. Cada una tiene su ancla: `#bombeo`, `#acondicionamiento`, `#redes`, `#suministro` |
 | `/protocolo/` | Flujo de trabajo en tres etapas y riesgos que mitiga |
+| `/privacidad/` | Política de privacidad (Ley 29733) — revisar con asesoría legal |
 | `/cotizacion/` | Formulario de cotización (abre el correo del visitante) y datos de la sede. Acepta `?area=<ancla>` para preseleccionar la especialidad |
 
 ```
@@ -29,6 +30,16 @@ Antes de publicar, completar en `contact`:
 - `phone`: teléfono público. Si queda vacío, no se muestra.
 - `whatsapp`: número solo con dígitos, con código de país (ej. `51987654321`). Si queda vacío, no aparece el botón de WhatsApp.
 - `email`: confirmar que el buzón existe; el formulario envía la solicitud a esa dirección.
+- `formEndpoint`: URL de un servicio de formularios (Formspree, Web3Forms…). Con ella el formulario envía la solicitud directamente; vacío, abre el programa de correo del visitante.
+- `complaintsBookUrl`: enlace al Libro de Reclamaciones virtual. Vacío = no aparece en el pie.
+
+### Fotos de la galería
+
+1. Copiar las fotos a `public/galeria/` (JPG de ~1600 px de ancho, comprimidas).
+2. Opcional: una copia diminuta de cada una (~40 px de ancho, ej. `foto-mini.jpg`) para el efecto borroso mientras carga.
+3. En `gallery.items` de `kgm-data.ts`, completar `src: "/galeria/foto.jpg"` (y `lqip: "/galeria/foto-mini.jpg"`).
+
+Sin `src` se muestra el marco "Foto pendiente"; mientras la foto carga se ve un marco animado "Cargando foto…".
 
 Si se usa un dominio propio, cambiar `site.origin` y `site.basePath` en `kgm-data.ts` y `basePath` en `next.config.mjs`.
 

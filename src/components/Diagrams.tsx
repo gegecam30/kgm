@@ -3,12 +3,12 @@
  * Son dibujos de referencia: no representan mediciones ni certificaciones reales.
  */
 
-const INK = "#141413";
-const MUTED = "#605F5B";
-const ACCENT = "#B8332A";
-const PAPER = "#FAF9F5";
-const SURFACE = "#EBE9E1";
-const GRAIN = "#DCDAD0";
+const INK = "#0F1E2A";
+const MUTED = "#4E5D6A";
+const ACCENT = "#C2410C";
+const PAPER = "#FFFFFF";
+const SURFACE = "#EDF1F4";
+const GRAIN = "#DCE2E8";
 
 const svgProps = {
   viewBox: "0 30 540 310",

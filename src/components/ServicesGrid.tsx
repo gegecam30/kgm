@@ -72,11 +72,10 @@ export default function ServicesGrid() {
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-10 grid gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 flex items-center gap-2 font-mono text-xs text-muted">
-              <span aria-hidden className="inline-block h-2 w-2 bg-terracotta" />
+            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
               Ingeniería aplicada
             </p>
-            <h1 className="text-balance font-serif text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="text-balance font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
               {services.title}
             </h1>
           </div>
@@ -109,12 +108,12 @@ export default function ServicesGrid() {
                   onKeyDown={(e) => onKeyDown(e, i)}
                   className={`animate-hydraulic-${i} relative w-[14.5rem] shrink-0 snap-start rounded-[4px] border p-4 text-left transition-colors lg:w-auto lg:p-5 ${
                     selected
-                      ? "border-terracotta bg-paper before:absolute before:inset-y-3 before:left-0 before:w-[3px] before:bg-terracotta"
+                      ? "border-accent bg-paper before:absolute before:inset-y-3 before:left-0 before:w-[3px] before:bg-accent"
                       : "border-grain bg-surface/40 hover:border-rule hover:bg-surface"
                   }`}
                 >
                   <span className="flex items-baseline justify-between gap-4">
-                    <span className={`font-serif text-2xl tracking-tight lg:text-3xl ${selected ? "text-terracotta" : "text-ink"}`}>
+                    <span className={`font-display text-2xl tracking-tight lg:text-3xl ${selected ? "text-accent" : "text-ink"}`}>
                       {s.code}
                     </span>
                     {s.ciiu && (
@@ -123,7 +122,7 @@ export default function ServicesGrid() {
                       </span>
                     )}
                   </span>
-                  <span className="mt-2 block font-serif text-base font-medium leading-snug tracking-tight text-ink lg:mt-2.5 lg:text-lg">
+                  <span className="mt-2 block font-display text-base font-medium leading-snug tracking-tight text-ink lg:mt-2.5 lg:text-lg">
                     {s.title}
                   </span>
                   <span className={`mt-1.5 hidden text-sm leading-relaxed text-muted lg:block ${selected ? "" : "lg:line-clamp-2"}`}>
@@ -142,8 +141,8 @@ export default function ServicesGrid() {
           >
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-grain pb-4">
               <div>
-                <p className="font-mono text-xs font-medium text-terracotta">Esquema {current.code}</p>
-                <h2 className="mt-1 font-serif text-xl tracking-tight text-ink sm:text-2xl">{current.title}</h2>
+                <p className="font-mono text-xs font-medium text-accent">Esquema {current.code}</p>
+                <h2 className="mt-1 font-display text-xl tracking-tight text-ink sm:text-2xl">{current.title}</h2>
               </div>
               <p className="font-mono text-xs text-muted">Esquema ilustrativo · sin escala</p>
             </div>
@@ -151,8 +150,8 @@ export default function ServicesGrid() {
             <figure className="mt-5 overflow-hidden rounded-[2px] border border-grain bg-canvas">
               <div className="flex items-center justify-between gap-3 border-b border-grain bg-paper px-4 py-2.5 font-mono text-xs">
                 <figcaption className="min-w-0 truncate text-muted">{fig}</figcaption>
-                <span className="flex shrink-0 items-center gap-2 font-semibold text-terracotta">
-                  <span aria-hidden className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-terracotta" />
+                <span className="flex shrink-0 items-center gap-2 font-semibold text-accent">
+                  <span aria-hidden className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
                   {status}
                 </span>
               </div>
@@ -186,7 +185,7 @@ export default function ServicesGrid() {
               <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
                 {current.symptoms.map((x) => (
                   <li key={x.id} className="flex items-start gap-2 text-sm leading-snug text-ink">
-                    <span aria-hidden className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 bg-terracotta" />
+                    <span aria-hidden className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 bg-accent" />
                     {x.label}
                   </li>
                 ))}
@@ -196,7 +195,7 @@ export default function ServicesGrid() {
             <div className="mt-5 flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
               <Link
                 href={`/cotizacion/?area=${current.slug}`}
-                className="shrink-0 rounded-[4px] text-center sm:whitespace-nowrap border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
+                className="shrink-0 rounded-[4px] text-center sm:whitespace-nowrap border border-accent bg-accent px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-accent-hover hover:bg-accent-hover"
               >
                 Cotizar esta especialidad
               </Link>
