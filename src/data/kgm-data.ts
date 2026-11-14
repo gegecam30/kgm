@@ -4,6 +4,8 @@
  */
 
 export interface Credential { label: string; value: string }
+/** Síntoma observable que lleva a una especialidad (diagnóstico rápido y cotización). */
+export interface Symptom { id: string; label: string }
 export interface Specialty {
   code: string;
   /** Ancla usada en la URL: /especialidades/#<slug> */
@@ -11,6 +13,8 @@ export interface Specialty {
   title: string;
   description: string;
   ciiu?: string;
+  /** Señales que el cliente puede reconocer en su instalación. */
+  symptoms: Symptom[];
 }
 export interface ProtocolStep { code: string; title: string; description: string }
 export interface Risk { title: string; description: string }
@@ -25,6 +29,7 @@ export interface KgmData {
   hero: { eyebrow: string; headline: string; summary: string; primaryCta: string; secondaryCta: string; credentialsTitle: string };
   credentials: Credential[];
   services: { title: string; intro: string; items: Specialty[] };
+  diagnosis: { eyebrow: string; title: string; intro: string; empty: string; cta: string; scopeHeading: string };
   protocol: { title: string; intro: string; risksTitle: string; risks: Risk[]; stepsTitle: string; steps: ProtocolStep[] };
   contact: {
     title: string;
@@ -60,6 +65,12 @@ const services: Specialty[] = [
     title: "Sistemas hidroneumáticos y cisternas",
     description:
       "Mantenimiento preventivo y correctivo de bombas de agua, tableros alternadores automáticos, válvulas check, rebobinado y desinfección de cisternas.",
+    symptoms: [
+      { id: "bomba-ciclado", label: "La bomba arranca y se detiene a cada rato" },
+      { id: "baja-presion", label: "Baja presión de agua en los pisos altos" },
+      { id: "ruido-bomba", label: "Ruido o vibración en el cuarto de bombas" },
+      { id: "cisterna", label: "La cisterna no se limpia ni desinfecta hace más de seis meses" },
+    ],
   },
   {
     code: "02",
@@ -68,6 +79,11 @@ const services: Specialty[] = [
     ciiu: "CIIU 4329",
     description:
       "Remodelación de interiores corporativos y comerciales, divisiones en drywall, falsos techos, pintura epóxica e industrial y estructuras metálicas.",
+    symptoms: [
+      { id: "remodelacion", label: "Oficina o local por remodelar o redistribuir" },
+      { id: "pintura", label: "Pintura desprendida o pisos industriales desgastados" },
+      { id: "corrosion", label: "Estructura metálica con corrosión" },
+    ],
   },
   {
     code: "03",
@@ -75,6 +91,11 @@ const services: Specialty[] = [
     title: "Redes sanitarias y eléctricas",
     description:
       "Solución de fugas complejas, tuberías en termofusión (PPR) y PVC pesado, balanceo de cargas eléctricas y mantenimiento de tableros generales.",
+    symptoms: [
+      { id: "fuga", label: "Fuga o humedad sin origen visible" },
+      { id: "termicas", label: "Llaves térmicas que saltan con frecuencia" },
+      { id: "tablero", label: "Tablero eléctrico caliente o con olor a quemado" },
+    ],
   },
   {
     code: "04",
@@ -83,6 +104,10 @@ const services: Specialty[] = [
     ciiu: "CIIU 4774",
     description:
       "Venta e instalación de motores, electrobombas y equipamiento técnico reacondicionado con garantía operativa.",
+    symptoms: [
+      { id: "equipo-parado", label: "Motor o electrobomba fuera de servicio" },
+      { id: "reemplazo", label: "Necesita un equipo de reemplazo con garantía" },
+    ],
   },
 ];
 
@@ -168,6 +193,14 @@ export const kgm: KgmData = {
     intro: "Cada frente de trabajo se cotiza y se entrega con especificaciones técnicas y conformidad por escrito.",
     items: services,
   },
+  diagnosis: {
+    eyebrow: "Diagnóstico rápido",
+    title: "¿Qué está fallando en su instalación?",
+    intro: "Marque lo que observa. Le indicamos la especialidad que corresponde y llevamos esos datos a la cotización.",
+    empty: "Seleccione uno o más síntomas.",
+    cta: "Cotizar con este diagnóstico",
+    scopeHeading: "Síntomas observados",
+  },
   protocol: {
     title: "Protocolo de trabajo",
     intro: "Un flujo de tres etapas que fija alcance, costo y responsabilidad antes de intervenir.",
@@ -235,4 +268,25 @@ export function whatsappHref(message?: string): string | null {
   const n = kgm.contact.whatsapp.replace(/\D/g, "");
   if (!n) return null;
   return `https://wa.me/${n}${message ? `?text=${encodeURIComponent(message)}` : ""}`;
+}
+
+/** Síntomas seleccionados (por id) junto con la especialidad a la que pertenecen. */
+export function findSymptoms(ids: readonly string[]): { symptom: Symptom; specialty: Specialty }[] {
+  return kgm.services.items.flatMap((specialty) =>
+    specialty.symptoms.filter((s) => ids.includes(s.id)).map((symptom) => ({ symptom, specialty }))
+  );
+}
+
+/** Especialidad con más síntomas marcados; en empate gana la primera del listado. */
+export function suggestSpecialty(ids: readonly string[]): Specialty | null {
+  let best: Specialty | null = null;
+  let bestCount = 0;
+  for (const s of kgm.services.items) {
+    const count = s.symptoms.filter((x) => ids.includes(x.id)).length;
+    if (count > bestCount) {
+      best = s;
+      bestCount = count;
+    }
+  }
+  return best;
 }

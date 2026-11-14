@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { kgm, whatsappHref } from "@/data/kgm-data";
+import { kgm, findSymptoms, whatsappHref } from "@/data/kgm-data";
 
 interface QuoteForm {
   name: string;
@@ -32,10 +32,17 @@ export default function QuoteSection() {
   const [sent, setSent] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Preselecciona la especialidad cuando se llega desde "Cotizar esta especialidad" (?area=redes).
+  // Preselecciona la especialidad cuando se llega desde "Cotizar esta especialidad" (?area=redes)
+  // y, si viene del diagnóstico rápido (?sintomas=fuga,tablero), deja los síntomas en el alcance.
   useEffect(() => {
-    const area = new URLSearchParams(window.location.search).get("area");
+    const params = new URLSearchParams(window.location.search);
+    const area = params.get("area");
     if (area && options.some((o) => o.slug === area)) setValues((v) => ({ ...v, area }));
+    const found = findSymptoms((params.get("sintomas") ?? "").split(","));
+    if (found.length) {
+      const lines = found.map(({ symptom }) => `- ${symptom.label}`);
+      setValues((v) => ({ ...v, scope: `${kgm.diagnosis.scopeHeading}:\n${lines.join("\n")}\n\n` }));
+    }
   }, [options]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>

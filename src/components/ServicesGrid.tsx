@@ -180,8 +180,20 @@ export default function ServicesGrid() {
               Dibujo de referencia. Las cifras son orientativas y no corresponden a una instalación concreta.
             </p>
 
-            <div className="mt-6 flex flex-col justify-between gap-4 border-t border-grain pt-5 sm:flex-row sm:items-center">
-              <p className="max-w-md text-sm leading-relaxed text-ink">{current.description}</p>
+            <div className="mt-6 border-t border-grain pt-5">
+              <p className="max-w-prose text-sm leading-relaxed text-ink">{current.description}</p>
+              <h3 className="mt-5 font-mono text-xs text-muted">Señales de que su instalación lo necesita</h3>
+              <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
+                {current.symptoms.map((x) => (
+                  <li key={x.id} className="flex items-start gap-2 text-sm leading-snug text-ink">
+                    <span aria-hidden className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 bg-terracotta" />
+                    {x.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-5 flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
               <Link
                 href={`/cotizacion/?area=${current.slug}`}
                 className="shrink-0 rounded-[4px] text-center sm:whitespace-nowrap border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-terracotta-hover hover:bg-terracotta-hover"
