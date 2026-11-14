@@ -34,7 +34,6 @@ export interface GalleryItem {
   /** slug de la especialidad relacionada */
   specialty: string;
 }
-export interface NavLink { href: string; label: string }
 export interface Section { href: string; code: string; label: string; title: string; description: string }
 
 export interface KgmData {
@@ -42,12 +41,11 @@ export interface KgmData {
   site: { origin: string; basePath: string };
   seo: { title: string; description: string; keywords: string[] };
   sections: Section[];
-  nav: { rucLabel: string; cta: string; links: NavLink[] };
+  nav: { rucLabel: string; cta: string };
   hero: { eyebrow: string; headline: string; summary: string; primaryCta: string; secondaryCta: string; credentialsTitle: string };
   credentials: Credential[];
   services: { title: string; intro: string; items: Specialty[] };
   gallery: { eyebrow: string; title: string; intro: string; items: GalleryItem[] };
-  closing: { title: string; text: string };
   diagnosis: { eyebrow: string; title: string; intro: string; empty: string; cta: string; scopeHeading: string };
   protocol: { title: string; intro: string; risksTitle: string; risks: Risk[]; stepsTitle: string; steps: ProtocolStep[] };
   contact: {
@@ -188,8 +186,15 @@ export const kgm: KgmData = {
         "Inspección en sitio, presupuesto por hitos y ejecución con SCTR y acta de conformidad.",
     },
     {
-      href: "/cotizacion/",
+      href: "/trabajos/",
       code: "04",
+      label: "Trabajos",
+      title: "Trabajos realizados",
+      description: "Registro fotográfico de mantenimientos, remodelaciones y redes ejecutadas por KGM en Lima.",
+    },
+    {
+      href: "/cotizacion/",
+      code: "05",
       label: "Cotización",
       title: "Cotización técnica",
       description: "Solicite una cotización técnica: describa la instalación y le respondemos con fecha de inspección.",
@@ -198,12 +203,6 @@ export const kgm: KgmData = {
   nav: {
     rucLabel: "RUC",
     cta: "Solicitar cotización",
-    links: [
-      { href: "/especialidades/", label: "Especialidades" },
-      { href: "/protocolo/", label: "Protocolo" },
-      { href: "/#trabajos", label: "Trabajos" },
-      { href: "/cotizacion/", label: "Cotización" },
-    ],
   },
   hero: {
     eyebrow: "Operaciones en Lima desde 2014",
@@ -242,10 +241,6 @@ export const kgm: KgmData = {
       { src: "", alt: "Tablero eléctrico general después del mantenimiento", caption: "Mantenimiento de tablero general", specialty: "redes" },
       { src: "", alt: "Tuberías de termofusión PPR instaladas", caption: "Red de agua en termofusión PPR", specialty: "redes" },
     ],
-  },
-  closing: {
-    title: "¿Necesita una inspección técnica?",
-    text: "Cuéntenos qué ocurre en su instalación y coordinamos la visita en Lima Metropolitana.",
   },
   diagnosis: {
     eyebrow: "Diagnóstico rápido",

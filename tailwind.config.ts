@@ -1,25 +1,27 @@
 import type { Config } from "tailwindcss";
 
+// Marca KGM: rojo, plata de metal y negro.
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        canvas: "#FFFFFF", // fondo general
-        paper: "#F7F9FB", // superficies de apoyo (formularios, fichas, secciones alternas)
-        surface: "#EDF1F4", // superficies hundidas / hover
-        ink: "#0F1E2A", // texto principal
-        muted: "#4E5D6A", // texto secundario
-        navy: { DEFAULT: "#0F2A3D", deep: "#0A1D2B" }, // franjas oscuras y pie de página
-        accent: { DEFAULT: "#C2410C", hover: "#9A3412" }, // acciones (cotizar, enviar)
-        grain: "#DCE2E8", // líneas finas
-        rule: "#C2CBD3", // bordes de campos y hover de bordes
+        canvas: "#EEEFF0", // fondo general: aluminio claro, frío
+        paper: "#F8F8F9", // superficies elevadas (formularios, paneles)
+        surface: "#E2E4E6", // superficies hundidas / hover
+        steel: "#B9BEC3", // plata de metal: placas, bordes fuertes
+        ink: "#000000", // negro de marca
+        graphite: "#24272B", // texto largo y pie de página
+        muted: "#5A6067", // texto secundario
+        accent: { DEFAULT: "#C8102E", hover: "#A00C24" }, // rojo KGM
+        grain: "#D3D6D9", // líneas finas
+        rule: "#AEB3B8", // bordes de campos y hover de bordes
         signal: "#2F7A4F", // estado "disponible"
       },
       fontFamily: {
-        display: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Arial Narrow", "sans-serif"],
+        label: ["var(--font-display)", "Arial Narrow", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       keyframes: {
         shimmer: { "100%": { transform: "translateX(100%)" } },

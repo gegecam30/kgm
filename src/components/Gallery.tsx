@@ -5,29 +5,53 @@ import { kgm, publicPath, type GalleryItem } from "@/data/kgm-data";
 
 export default function Gallery() {
   const { gallery, services } = kgm;
+  const [filter, setFilter] = useState<string | null>(null);
   const specialtyTitle = (slug: string) => services.items.find((s) => s.slug === slug)?.title ?? "";
+  const items = gallery.items.filter((g) => !filter || g.specialty === filter);
 
   return (
-    <section id="trabajos" aria-labelledby="trabajos-titulo" className="scroll-mt-20 border-b border-grain bg-paper">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        <header className="mb-8 grid gap-4 lg:grid-cols-12">
+    <section aria-labelledby="trabajos-titulo" className="py-12 lg:py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <header className="mb-10 grid gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">{gallery.eyebrow}</p>
-            <h2 id="trabajos-titulo" className="text-balance font-display text-2xl sm:text-3xl lg:text-4xl">
+            <p className="mb-3 text-sm text-muted">{gallery.eyebrow}</p>
+            <h1 id="trabajos-titulo" className="text-balance font-display text-4xl font-semibold leading-none text-ink sm:text-5xl lg:text-6xl">
               {gallery.title}
-            </h2>
+            </h1>
           </div>
-          <p className="max-w-[48ch] self-end text-base leading-relaxed text-muted lg:col-span-5">{gallery.intro}</p>
+          <p className="max-w-[48ch] self-end text-base leading-relaxed text-graphite lg:col-span-5">{gallery.intro}</p>
         </header>
 
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {gallery.items.map((item, i) => (
-            <li key={i}>
-              <figure className="overflow-hidden rounded-[4px] border border-grain bg-canvas">
-                <Photo item={item} />
-                <figcaption className="border-t border-grain px-4 py-3">
-                  <p className="text-sm font-medium text-ink">{item.caption}</p>
-                  <p className="mt-0.5 font-mono text-xs text-muted">{specialtyTitle(item.specialty)}</p>
+        {/* Filtro por especialidad: útil cuando la galería crezca */}
+        <div role="group" aria-label="Filtrar por especialidad" className="mb-8 flex flex-wrap gap-2">
+          {[{ slug: null, title: "Todas" }, ...services.items].map((s) => {
+            const active = filter === s.slug;
+            return (
+              <button
+                key={s.slug ?? "todas"}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setFilter(s.slug)}
+                className={`rounded-[2px] border px-3 py-1.5 font-label text-base transition-colors ${
+                  active ? "border-ink bg-ink text-white" : "border-rule text-graphite hover:border-ink"
+                }`}
+              >
+                {s.title}
+              </button>
+            );
+          })}
+        </div>
+
+        <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <li key={item.alt}>
+              <figure>
+                <div className="border border-steel p-1.5">
+                  <Photo item={item} />
+                </div>
+                <figcaption className="mt-3">
+                  <p className="font-display text-xl font-semibold leading-snug text-ink">{item.caption}</p>
+                  <p className="mt-0.5 text-sm text-muted">{specialtyTitle(item.specialty)}</p>
                 </figcaption>
               </figure>
             </li>
@@ -96,7 +120,7 @@ function Skeleton({ status }: { status: Exclude<Status, "loaded"> }) {
           <circle cx="9" cy="10" r="1.75" />
           <path d="m21 16-5-5-8 8" />
         </svg>
-        <span className="font-mono text-xs">{label}</span>
+        <span className="font-label text-sm">{label}</span>
       </span>
     </div>
   );

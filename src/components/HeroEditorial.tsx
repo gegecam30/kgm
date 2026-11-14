@@ -5,89 +5,78 @@ export default function HeroEditorial() {
   const { hero, credentials, identity, services } = kgm;
   const years = yearsOperating();
 
-  // La ficha toma los datos de credenciales: encabezado (razón social + RUC),
-  // celdas intermedias en dos columnas y la sede a todo el ancho.
-  const [, , ...rest] = credentials;
+  // La placa toma los datos de credenciales: la razón social va en la franja roja,
+  // el resto en celdas de dos columnas y la sede a todo el ancho.
+  const [, ...rest] = credentials;
   const sede = rest.find((c) => c.label === "Sede operativa");
   const cells = rest.filter((c) => c !== sede);
 
   return (
     <>
-      <section className="bg-navy text-white">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-12 sm:py-16 lg:grid-cols-12 lg:gap-14 lg:py-24">
+      <section className="border-b border-grain">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-12 sm:py-16 lg:grid-cols-12 lg:gap-16 lg:py-24">
           <div className="lg:col-span-7">
-            <p className="mb-6 font-mono text-xs uppercase tracking-wider text-white/70">{hero.eyebrow}</p>
-            <h1 className="max-w-[22ch] text-balance break-words font-display text-[2rem] leading-[1.12] sm:text-5xl lg:text-[3.4rem]">
+            <p className="mb-6 text-sm text-muted">{hero.eyebrow}</p>
+            <h1 className="max-w-[18ch] text-balance font-display text-[2.6rem] font-semibold leading-[0.98] text-ink sm:text-6xl lg:text-[4.6rem]">
               {hero.headline}
             </h1>
-            <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-white/80 sm:mt-8">{hero.summary}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
+            <p className="mt-8 max-w-[50ch] text-lg leading-relaxed text-graphite">{hero.summary}</p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href="/cotizacion/"
-                className="rounded-[4px] border border-accent bg-accent px-5 py-3.5 text-center text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover"
+                className="rounded-[2px] bg-accent px-6 py-3.5 text-center font-display text-lg font-semibold text-white transition-colors hover:bg-accent-hover"
               >
                 {hero.primaryCta}
               </Link>
               <Link
                 href="/especialidades/"
-                className="rounded-[4px] border border-white/40 px-5 py-3.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/10"
+                className="rounded-[2px] border-2 border-ink px-6 py-3 text-center font-display text-lg font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
               >
                 {hero.secondaryCta}
               </Link>
             </div>
-
-            <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-6">
-              <div>
-                <dt className="text-xs text-white/65">Años en operación</dt>
-                <dd className="mt-1 font-display text-3xl tabular-nums">{years}</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-white/65">Especialidades</dt>
-                <dd className="mt-1 font-display text-3xl tabular-nums">{services.items.length}</dd>
-              </div>
-              <div>
-                <dt className="text-xs text-white/65">Ámbito</dt>
-                <dd className="mt-1 font-display text-3xl">Lima</dd>
-              </div>
-            </dl>
           </div>
 
-          <aside className="lg:col-span-5" aria-labelledby="ficha-tecnica">
-            <div className="overflow-hidden rounded-[6px] bg-canvas text-ink shadow-xl shadow-black/20">
-              <div className="flex items-center justify-between border-b border-grain bg-paper px-5 py-3">
-                <h2 id="ficha-tecnica" className="font-mono text-xs font-semibold uppercase tracking-wider text-ink">
-                  {hero.credentialsTitle}
+          {/* Placa de características: la ficha de la empresa se presenta como la placa remachada de un equipo */}
+          <aside className="lg:col-span-5 lg:pt-2" aria-labelledby="ficha-tecnica">
+            <div className="nameplate relative rounded-[3px] p-3 sm:p-4">
+              <Rivet className="left-2 top-2" />
+              <Rivet className="right-2 top-2" />
+              <Rivet className="bottom-2 left-2" />
+              <Rivet className="bottom-2 right-2" />
+
+              <div className="mx-3 flex items-baseline justify-between gap-3 rounded-[1px] bg-accent px-4 py-2.5 text-white sm:mx-4">
+                <h2 id="ficha-tecnica" className="font-display text-xl font-bold tracking-wide">
+                  {identity.name}
                 </h2>
-                <span className="flex items-center gap-2 font-mono text-xs text-signal">
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-signal" />
-                  {identity.status}
-                </span>
+                <span className="shrink-0 font-display text-sm font-medium text-white/85">{hero.credentialsTitle}</span>
               </div>
 
-              <div className="border-b border-grain px-5 py-4">
-                <p className="font-display text-xl leading-tight">{identity.name}</p>
-                <p className="mt-1 font-mono text-sm tabular-nums text-muted">RUC {identity.ruc}</p>
-              </div>
-
-              <dl className="grid grid-cols-2">
+              <dl className="engraved mx-3 mt-3 grid grid-cols-2 border border-black/25 sm:mx-4">
                 {cells.map((c, i) => (
                   <div
                     key={c.label}
-                    className={`border-b border-grain px-5 py-3 ${
+                    className={`border-b border-black/20 px-3 py-2.5 ${
                       // si queda una celda impar al final, ocupa las dos columnas
                       i === cells.length - 1 && i % 2 === 0 ? "col-span-2" : i % 2 === 0 ? "border-r" : ""
                     }`}
                   >
-                    <dt className="text-xs text-muted">{c.label}</dt>
-                    <dd className="mt-1 text-sm font-medium leading-snug text-ink">{c.value}</dd>
+                    <dt className="font-label text-[0.8rem] font-medium text-black/60">{c.label}</dt>
+                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-ink">{c.value}</dd>
                   </div>
                 ))}
                 {sede && (
-                  <div className="col-span-2 px-5 py-3">
-                    <dt className="text-xs text-muted">{sede.label}</dt>
-                    <dd className="mt-1 text-sm font-medium leading-snug text-ink">{sede.value}</dd>
+                  <div className="col-span-2 px-3 py-2.5">
+                    <dt className="font-label text-[0.8rem] font-medium text-black/60">{sede.label}</dt>
+                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-ink">{sede.value}</dd>
                   </div>
                 )}
+              </dl>
+
+              <dl className="engraved mx-3 mb-3 mt-3 grid grid-cols-3 gap-2 sm:mx-4">
+                <Stamp label="En operación" value={`${years} años`} />
+                <Stamp label="CIIU" value={identity.ciiu.map((c) => c.replace("CIIU ", "")).join(" / ")} />
+                <Stamp label="Ámbito" value="Lima" />
               </dl>
             </div>
           </aside>
@@ -96,34 +85,24 @@ export default function HeroEditorial() {
 
       {/* Índice de especialidades: acceso directo a cada pilar */}
       <section aria-labelledby="indice-especialidades" className="border-b border-grain">
-        <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">Qué hacemos</p>
-              <h2 id="indice-especialidades" className="font-display text-2xl sm:text-3xl lg:text-4xl">
-                {services.title}
-              </h2>
-            </div>
-            <Link href="/especialidades/" className="py-2 text-sm font-medium text-ink underline decoration-rule underline-offset-4 hover:decoration-accent">
-              Ver esquemas técnicos →
+        <div className="mx-auto max-w-7xl px-6 py-12 lg:py-16">
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <h2 id="indice-especialidades" className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+              Especialidades
+            </h2>
+            <Link href="/especialidades/" className="py-2 text-sm font-medium text-graphite underline decoration-rule underline-offset-4 hover:decoration-accent">
+              Ver los esquemas técnicos
             </Link>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid gap-x-12 gap-y-10 sm:grid-cols-2">
             {services.items.map((s) => (
-              <li key={s.code}>
-                <Link
-                  href={`/especialidades/#${s.slug}`}
-                  className="group flex h-full flex-col gap-3 rounded-[6px] border border-grain bg-canvas p-5 transition-all hover:-translate-y-0.5 hover:border-rule hover:shadow-md"
-                >
-                  <span className="flex items-baseline justify-between font-mono text-xs text-muted">
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-[4px] bg-navy/5 font-display text-base text-navy">
-                      {s.code}
-                    </span>
-                    {s.ciiu && <span className="tabular-nums">{s.ciiu}</span>}
+              <li key={s.slug} className="border-t-[3px] border-ink pt-4">
+                <Link href={`/especialidades/#${s.slug}`} className="group block">
+                  <span className="flex items-baseline justify-between gap-4">
+                    <span className="font-display text-2xl font-semibold leading-tight text-ink group-hover:text-accent">{s.title}</span>
+                    {s.ciiu && <span className="shrink-0 font-label text-sm text-muted">{s.ciiu}</span>}
                   </span>
-                  <span className="font-display text-lg leading-snug text-ink group-hover:text-accent">{s.title}</span>
-                  <span className="text-sm leading-relaxed text-muted">{s.description}</span>
-                  <span className="mt-auto pt-2 text-sm font-medium text-accent">Ver más →</span>
+                  <span className="mt-2 block max-w-[60ch] text-[0.95rem] leading-relaxed text-graphite">{s.description}</span>
                 </Link>
               </li>
             ))}
@@ -131,5 +110,19 @@ export default function HeroEditorial() {
         </div>
       </section>
     </>
+  );
+}
+
+function Rivet({ className }: { className: string }) {
+  return <span aria-hidden className={`rivet absolute h-2.5 w-2.5 rounded-full ${className}`} />;
+}
+
+/** Celda estampada inferior de la placa (años, actividad, ámbito). */
+function Stamp({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border border-black/25 px-2.5 py-1.5">
+      <dt className="font-label text-[0.75rem] font-medium text-black/60">{label}</dt>
+      <dd className="font-display text-lg font-bold leading-tight tabular-nums text-ink">{value}</dd>
+    </div>
   );
 }

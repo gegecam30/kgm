@@ -14,8 +14,8 @@ interface QuoteForm {
 }
 
 const fieldClass =
-  "w-full rounded-[4px] border border-rule bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:text-sm";
-const labelClass = "font-mono text-xs text-muted";
+  "w-full rounded-[2px] border border-rule bg-paper px-3.5 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:text-sm";
+const labelClass = "font-label text-sm text-muted";
 
 export default function QuoteSection() {
   const { contact, identity, services } = kgm;
@@ -108,16 +108,16 @@ export default function QuoteSection() {
     <section className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-12 border-b border-grain pb-8">
-          <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+          <p className="mb-3 text-sm text-muted">
               Atención directa en Lima Metropolitana
           </p>
-          <h1 className="font-display text-3xl tracking-tight sm:text-4xl lg:text-5xl">{contact.title}</h1>
+          <h1 className="font-display text-4xl font-semibold leading-none sm:text-5xl lg:text-6xl">{contact.title}</h1>
           <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-muted">{contact.intro}</p>
         </header>
 
         <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-12">
-          <div className="min-w-0 rounded-[4px] border border-grain bg-surface/30 p-5 sm:p-8 lg:col-span-7">
-            <h2 className="mb-6 font-mono text-xs font-medium text-accent">Pliego de requerimiento técnico</h2>
+          <div className="min-w-0 rounded-[2px] border border-grain bg-surface/30 p-5 sm:p-8 lg:col-span-7">
+            <h2 className="mb-6 font-label text-sm font-medium text-accent">Pliego de requerimiento técnico</h2>
 
             <form onSubmit={onSubmit} className="grid gap-6 sm:grid-cols-2">
               <Field label={form.name}>
@@ -150,7 +150,7 @@ export default function QuoteSection() {
                   <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="w-full rounded-[4px] border border-accent bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
+                    className="w-full rounded-[2px] border border-accent bg-accent px-6 py-3.5 text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
                   >
                     {useEndpoint ? (status === "sending" ? form.sending : form.send) : form.submit}
                   </button>
@@ -178,7 +178,7 @@ export default function QuoteSection() {
                         <a href={`mailto:${contact.email}`} className="inline-block break-all py-1 font-medium text-ink underline underline-offset-4">
                           {contact.email}
                         </a>{" "}
-                        <button type="button" onClick={copyEmail} className="ml-1 min-h-10 px-1 font-mono text-xs text-accent underline-offset-4 hover:underline">
+                        <button type="button" onClick={copyEmail} className="ml-1 min-h-10 px-1 font-label text-sm text-accent underline-offset-4 hover:underline">
                           {copied ? "Copiado" : "Copiar"}
                         </button>
                       </p>
@@ -189,14 +189,14 @@ export default function QuoteSection() {
             </form>
           </div>
 
-          <aside className="min-w-0 rounded-[4px] border border-grain bg-paper p-5 sm:p-8 lg:col-span-5" aria-labelledby="sede">
-            <h2 id="sede" className="border-b border-grain pb-3 font-mono text-xs font-medium text-accent">
+          <aside className="min-w-0 rounded-[2px] border border-grain bg-paper p-5 sm:p-8 lg:col-span-5" aria-labelledby="sede">
+            <h2 id="sede" className="border-b border-grain pb-3 font-label text-sm font-medium text-accent">
               {contact.legalTitle}
             </h2>
 
             <div className="mt-6 border-b border-grain pb-5">
               <p className="font-display text-2xl leading-snug tracking-tight">{identity.name}</p>
-              <p className="mt-1 font-mono text-sm tabular-nums text-muted">
+              <p className="mt-1 font-label text-sm tabular-nums text-muted">
                 RUC {identity.ruc} · {identity.status}
               </p>
             </div>
@@ -223,7 +223,7 @@ export default function QuoteSection() {
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-8 flex items-center justify-between gap-3 rounded-[4px] border border-ink px-4 py-3 text-sm font-medium text-ink transition-colors hover:bg-surface"
+                className="mt-8 flex items-center justify-between gap-3 rounded-[2px] border border-ink px-4 py-3 text-sm font-medium text-ink transition-colors hover:bg-surface"
               >
                 <span className="flex items-center gap-2">
                   <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-signal" />

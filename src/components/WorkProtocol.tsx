@@ -1,59 +1,47 @@
 import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
 
-/** En /protocolo/ es el título de la página (h1); en el inicio es una sección más (h2). */
-export default function WorkProtocol({ asPage = false }: { asPage?: boolean }) {
+export default function WorkProtocol() {
   const { protocol } = kgm;
-  const Title = asPage ? "h1" : "h2";
 
   return (
-    <section id="protocolo" aria-labelledby="protocolo-titulo" className="scroll-mt-20 border-b border-grain">
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:py-20">
-        <header className="mb-12 grid items-end gap-6 lg:grid-cols-12">
+    <section className="py-12 lg:py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <header className="mb-14 grid items-end gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">Garantía operativa</p>
-            <Title id="protocolo-titulo" className={`font-display ${asPage ? "text-3xl sm:text-4xl lg:text-5xl" : "text-2xl sm:text-3xl lg:text-4xl"}`}>
-              {protocol.title}
-            </Title>
+            <p className="mb-3 text-sm text-muted">Garantía operativa y mitigación de riesgos</p>
+            <h1 className="font-display text-4xl font-semibold leading-none text-ink sm:text-5xl lg:text-6xl">{protocol.title}</h1>
           </div>
-          <p className="max-w-[52ch] text-base leading-relaxed text-muted lg:col-span-5">{protocol.intro}</p>
+          <p className="max-w-[52ch] text-base leading-relaxed text-graphite lg:col-span-5">{protocol.intro}</p>
         </header>
 
         {/* Secuencia real: la numeración indica el orden de las etapas */}
-        <h3 className="sr-only">{protocol.stepsTitle}</h3>
-        <ol className="relative grid gap-10 md:grid-cols-3 md:gap-0">
-          {/* Línea de recorrido que une las tres etapas */}
-          <span aria-hidden className="absolute left-0 right-0 top-6 hidden h-px bg-grain md:block" />
-          {protocol.steps.map((s, i) => (
-            <li key={s.code} className="relative md:pr-10">
-              <span className="relative z-10 inline-flex h-12 w-12 items-center justify-center rounded-full bg-navy font-display text-lg text-white">
-                {s.code}
-              </span>
-              <p className="mt-5 font-display text-xl leading-snug">{s.title}</p>
-              <p className="mt-2 max-w-[38ch] text-sm leading-relaxed text-muted">{s.description}</p>
-              {i < protocol.steps.length - 1 && (
-                <span aria-hidden className="absolute left-6 top-12 h-10 w-px bg-grain md:hidden" />
-              )}
+        <h2 className="sr-only">{protocol.stepsTitle}</h2>
+        <ol className="grid gap-10 md:grid-cols-3 md:gap-8">
+          {protocol.steps.map((s) => (
+            <li key={s.code} className="border-t-[3px] border-ink pt-4">
+              <span className="block font-display text-6xl font-bold leading-none text-accent">{s.code}</span>
+              <p className="mt-4 font-display text-2xl font-semibold leading-snug text-ink">{s.title}</p>
+              <p className="mt-2 max-w-[38ch] text-[0.95rem] leading-relaxed text-graphite">{s.description}</p>
             </li>
           ))}
         </ol>
 
-        {/* Franja oscura acotada: los riesgos que el protocolo cubre */}
-        <div className="mt-14 rounded-[6px] bg-navy p-6 text-white sm:p-8">
-          <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-            <h3 className="font-display text-lg">{protocol.risksTitle}</h3>
+        <div className="mt-16 border-t border-grain pt-10">
+          <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <h2 className="font-display text-2xl font-semibold text-ink">{protocol.risksTitle}</h2>
             <Link
               href="/cotizacion/"
-              className="self-start rounded-[4px] border border-accent bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover sm:self-auto"
+              className="self-start rounded-[2px] bg-accent px-5 py-3 font-display text-lg font-semibold text-white transition-colors hover:bg-accent-hover sm:self-auto"
             >
               Solicitar trabajo bajo este protocolo
             </Link>
           </div>
-          <ul className="grid gap-px overflow-hidden rounded-[4px] bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {protocol.risks.map((r) => (
-              <li key={r.title} className="bg-navy p-5">
-                <p className="font-display text-base">{r.title}</p>
-                <p className="mt-2 text-sm leading-relaxed text-white/75">{r.description}</p>
+              <li key={r.title} className="border-l-[3px] border-steel pl-4">
+                <p className="font-display text-xl font-semibold text-ink">{r.title}</p>
+                <p className="mt-1 text-sm leading-relaxed text-graphite">{r.description}</p>
               </li>
             ))}
           </ul>

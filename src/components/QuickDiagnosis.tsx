@@ -25,7 +25,7 @@ export default function QuickDiagnosis() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:py-16">
         <header className="mb-8 grid gap-4 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+            <p className="mb-3 text-sm text-muted">
               {diagnosis.eyebrow}
             </p>
             <h2 id="diagnostico" className="text-balance font-display text-2xl tracking-tight sm:text-3xl">
@@ -40,7 +40,7 @@ export default function QuickDiagnosis() {
             const highlighted = suggestion?.slug === s.slug;
             return (
               <fieldset key={s.slug} className={`min-w-0 p-5 transition-colors ${highlighted ? "bg-paper" : "bg-canvas"}`}>
-                <legend className="float-left mb-4 flex w-full items-baseline gap-2 font-mono text-xs">
+                <legend className="float-left mb-4 flex w-full items-baseline gap-2 font-label text-sm">
                   <span className={highlighted ? "font-semibold text-accent" : "text-muted"}>{s.code}</span>
                   <span className="text-ink">{s.title}</span>
                 </legend>
@@ -50,7 +50,7 @@ export default function QuickDiagnosis() {
                     return (
                       <li key={x.id}>
                         <label
-                          className={`flex cursor-pointer items-start gap-3 rounded-[4px] border px-3 py-2.5 text-sm leading-snug transition-colors ${
+                          className={`flex cursor-pointer items-start gap-3 rounded-[2px] border px-3 py-2.5 text-sm leading-snug transition-colors ${
                             checked ? "border-accent bg-paper text-ink" : "border-grain text-muted hover:border-rule hover:text-ink"
                           }`}
                         >
@@ -79,7 +79,7 @@ export default function QuickDiagnosis() {
                 <span className="font-medium text-ink">
                   {suggestion.code} · {suggestion.title}
                 </span>
-                <span className="font-mono text-xs"> ({selected.length} {selected.length === 1 ? "síntoma" : "síntomas"})</span>
+                <span className="font-label text-sm"> ({selected.length} {selected.length === 1 ? "síntoma" : "síntomas"})</span>
               </>
             ) : (
               diagnosis.empty
@@ -88,14 +88,14 @@ export default function QuickDiagnosis() {
           {suggestion ? (
             <Link
               href={href}
-              className="shrink-0 rounded-[4px] border border-accent bg-accent px-5 py-3 text-center text-sm font-medium text-canvas transition-colors hover:border-accent-hover hover:bg-accent-hover"
+              className="shrink-0 rounded-[2px] border border-accent bg-accent px-5 py-3 text-center text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover"
             >
               {diagnosis.cta}
             </Link>
           ) : (
             <span
               aria-disabled="true"
-              className="shrink-0 cursor-default rounded-[4px] border border-grain px-5 py-3 text-center text-sm font-medium text-muted"
+              className="shrink-0 cursor-default rounded-[2px] border border-grain px-5 py-3 text-center text-sm font-medium text-muted"
             >
               {diagnosis.cta}
             </span>

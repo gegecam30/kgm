@@ -72,10 +72,10 @@ export default function ServicesGrid() {
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-10 grid gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 font-mono text-xs uppercase tracking-wider text-accent">
+            <p className="mb-3 text-sm text-muted">
               Ingeniería aplicada
             </p>
-            <h1 className="text-balance font-display text-3xl leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="text-balance font-display text-4xl font-semibold leading-none sm:text-5xl lg:text-6xl">
               {services.title}
             </h1>
           </div>
@@ -106,7 +106,7 @@ export default function ServicesGrid() {
                   tabIndex={selected ? 0 : -1}
                   onClick={() => select(s.slug)}
                   onKeyDown={(e) => onKeyDown(e, i)}
-                  className={`animate-hydraulic-${i} relative w-[14.5rem] shrink-0 snap-start rounded-[4px] border p-4 text-left transition-colors lg:w-auto lg:p-5 ${
+                  className={`animate-hydraulic-${i} relative w-[14.5rem] shrink-0 snap-start rounded-[2px] border p-4 text-left transition-colors lg:w-auto lg:p-5 ${
                     selected
                       ? "border-accent bg-paper before:absolute before:inset-y-3 before:left-0 before:w-[3px] before:bg-accent"
                       : "border-grain bg-surface/40 hover:border-rule hover:bg-surface"
@@ -117,7 +117,7 @@ export default function ServicesGrid() {
                       {s.code}
                     </span>
                     {s.ciiu && (
-                      <span className="rounded-[2px] border border-grain px-1.5 py-0.5 font-mono text-xs tabular-nums text-muted">
+                      <span className="rounded-[2px] border border-grain px-1.5 py-0.5 font-label text-sm tabular-nums text-muted">
                         {s.ciiu}
                       </span>
                     )}
@@ -137,18 +137,18 @@ export default function ServicesGrid() {
             id="panel-especialidad"
             role="tabpanel"
             aria-labelledby={`tab-${current.slug}`}
-            className="min-w-0 rounded-[4px] border border-grain bg-paper p-4 sm:p-7 lg:sticky lg:top-24 lg:col-span-7"
+            className="min-w-0 rounded-[2px] border border-grain bg-paper p-4 sm:p-7 lg:sticky lg:top-24 lg:col-span-7"
           >
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-grain pb-4">
               <div>
-                <p className="font-mono text-xs font-medium text-accent">Esquema {current.code}</p>
-                <h2 className="mt-1 font-display text-xl tracking-tight text-ink sm:text-2xl">{current.title}</h2>
+                <p className="font-label text-sm font-medium text-accent">Esquema {current.code}</p>
+                <h2 className="mt-1 font-display text-2xl font-semibold text-ink sm:text-3xl">{current.title}</h2>
               </div>
-              <p className="font-mono text-xs text-muted">Esquema ilustrativo · sin escala</p>
+              <p className="font-label text-sm text-muted">Esquema ilustrativo · sin escala</p>
             </div>
 
             <figure className="mt-5 overflow-hidden rounded-[2px] border border-grain bg-canvas">
-              <div className="flex items-center justify-between gap-3 border-b border-grain bg-paper px-4 py-2.5 font-mono text-xs">
+              <div className="flex items-center justify-between gap-3 border-b border-grain bg-paper px-4 py-2.5 font-label text-sm">
                 <figcaption className="min-w-0 truncate text-muted">{fig}</figcaption>
                 <span className="flex shrink-0 items-center gap-2 font-semibold text-accent">
                   <span aria-hidden className="pulse-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
@@ -172,7 +172,7 @@ export default function ServicesGrid() {
                 />
               </div>
             </figure>
-            <p className="mt-2 flex items-center gap-2 font-mono text-xs text-muted sm:hidden">
+            <p className="mt-2 flex items-center gap-2 font-label text-sm text-muted sm:hidden">
               <span aria-hidden>↔</span> Deslice para recorrer el esquema completo
             </p>
             <p className="mt-2 text-xs leading-relaxed text-muted sm:mt-3">
@@ -181,7 +181,7 @@ export default function ServicesGrid() {
 
             <div className="mt-6 border-t border-grain pt-5">
               <p className="max-w-prose text-sm leading-relaxed text-ink">{current.description}</p>
-              <h3 className="mt-5 font-mono text-xs text-muted">Señales de que su instalación lo necesita</h3>
+              <h3 className="mt-5 font-label text-sm text-muted">Señales de que su instalación lo necesita</h3>
               <ul className="mt-2 grid gap-1.5 sm:grid-cols-2">
                 {current.symptoms.map((x) => (
                   <li key={x.id} className="flex items-start gap-2 text-sm leading-snug text-ink">
@@ -195,7 +195,7 @@ export default function ServicesGrid() {
             <div className="mt-5 flex flex-col justify-end gap-4 sm:flex-row sm:items-center">
               <Link
                 href={`/cotizacion/?area=${current.slug}`}
-                className="shrink-0 rounded-[4px] text-center sm:whitespace-nowrap border border-accent bg-accent px-4 py-2.5 text-sm font-medium text-canvas transition-colors hover:border-accent-hover hover:bg-accent-hover"
+                className="shrink-0 rounded-[2px] text-center sm:whitespace-nowrap border border-accent bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-accent-hover hover:bg-accent-hover"
               >
                 Cotizar esta especialidad
               </Link>
