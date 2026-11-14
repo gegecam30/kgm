@@ -29,6 +29,21 @@ jobs:
         run: npm ci
       - name: Build Next.js Static Export
         run: npm run build
+      # La vista previa de las ramas "mejora/**" vive en gh-pages/preview (ver preview.yml).
+      # Pages publica desde Actions, así que se incluye en el mismo artefacto: /kgm/preview/
+      - name: Checkout de gh-pages (vista previa)
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Incluir la vista previa
+        run: |
+          if [ -d gh-pages/preview ]; then
+            cp -r gh-pages/preview out/preview
+          else
+            echo "Sin vista previa en gh-pages."
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

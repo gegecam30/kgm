@@ -1,9 +1,10 @@
 name: Vista previa en GitHub Pages
 
-# Cada push a una rama "mejora/**" compila el sitio y lo publica en la
-# subcarpeta /preview/ de la rama gh-pages:
+# Cada push a una rama "mejora/**" compila el sitio, lo guarda en la
+# subcarpeta /preview/ de la rama gh-pages y relanza el despliegue de main,
+# que publica esa carpeta en:
 #   https://gegecam30.github.io/kgm/preview/
-# La web publicada (raíz de gh-pages) no se modifica.
+# El contenido de la web principal sigue saliendo de main.
 
 on:
   push:
@@ -12,6 +13,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # para relanzar deploy.yml
 
 concurrency:
   group: "preview"
@@ -60,3 +62,9 @@ jobs:
             git commit -m "preview: ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}"
             git push origin gh-pages
           fi
+
+      # Los push hechos con GITHUB_TOKEN no disparan otros flujos; workflow_dispatch sí.
+      - name: Relanzar el despliegue de main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main --repo "$GITHUB_REPOSITORY"
