@@ -1,6 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#F4F3EE"/>
-  <rect x="4" y="4" width="56" height="56" fill="none" stroke="#141413" stroke-width="3"/>
-  <rect x="4" y="4" width="10" height="10" fill="#B8332A"/>
-  <text x="34" y="44" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#141413">KGM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Logo oficial KGM (ver src/components/KgmLogo.tsx) -->
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DCDEE0"/>
+      <stop offset="0.45" stop-color="#A4A8AC"/>
+      <stop offset="1" stop-color="#6C7075"/>
+    </linearGradient>
+    <mask id="m">
+      <rect width="200" height="200" fill="black"/>
+      <circle cx="100" cy="100" r="92" fill="white"/>
+      <circle cx="100" cy="100" r="54" fill="black"/>
+      <rect x="100" y="95" width="100" height="10" fill="black" transform="rotate(-30 100 100)"/>
+      <rect x="100" y="95" width="100" height="10" fill="black" transform="rotate(-150 100 100)"/>
+      <rect x="100" y="95" width="100" height="10" fill="black" transform="rotate(-270 100 100)"/>
+    </mask>
+  </defs>
+  <circle cx="100" cy="100" r="99" fill="#FFFFFF"/>
+  <circle cx="100" cy="100" r="92" fill="url(#s)" mask="url(#m)"/>
+  <g fill="#FFFFFF" stroke="#2A2D31" stroke-width="3.5">
+    <circle cx="100" cy="14" r="14"/>
+    <circle cx="25.52" cy="143" r="14"/>
+    <circle cx="174.48" cy="143" r="14"/>
+  </g>
+  <g stroke="#2A2D31" stroke-width="3.5">
+    <line x1="92" y1="9" x2="108" y2="19"/>
+    <line x1="17.52" y1="138" x2="33.52" y2="148"/>
+    <line x1="166.48" y1="138" x2="182.48" y2="148"/>
+  </g>
+  <g transform="translate(49.6 85.6) scale(0.72)" fill="none" stroke="#C21A1F" stroke-width="9" stroke-linejoin="round">
+    <path d="M4.5 0 V40 M9 20 L40 2 M9 20 L40 38"/>
+    <path d="M91 4.5 H60.5 a8 8 0 0 0 -8 8 V27.5 a8 8 0 0 0 8 8 H83 a8 8 0 0 0 8 -8 V20 H72"/>
+    <path d="M104.5 40 V12.5 a8 8 0 0 1 8 -8 H127.5 a8 8 0 0 1 8 8 V40 M120 4.5 V40"/>
+  </g>
 </svg>
