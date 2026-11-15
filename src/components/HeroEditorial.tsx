@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
 import { KgmMark } from "./KgmLogo";
+import Nameplate from "./Nameplate";
 
 export default function HeroEditorial() {
   const { hero, credentials, identity, services } = kgm;
@@ -16,8 +17,7 @@ export default function HeroEditorial() {
       <section className="border-b border-grain">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-12 sm:py-16 lg:grid-cols-12 lg:gap-16 lg:py-24">
           <div className="lg:col-span-7">
-            <p className="mb-6 text-sm text-muted">{hero.eyebrow}</p>
-            <h1 className="max-w-[18ch] text-balance font-display text-[2.6rem] font-semibold leading-[0.98] text-ink sm:text-6xl lg:text-[4.6rem]">
+            <h1 className="headline-reveal max-w-[16ch] text-balance font-display text-[2.9rem] font-semibold leading-[0.95] text-ink sm:text-7xl lg:text-[5.2rem]">
               {hero.headline}
             </h1>
             <p className="mt-8 max-w-[50ch] text-lg leading-relaxed text-graphite">{hero.summary}</p>
@@ -30,20 +30,17 @@ export default function HeroEditorial() {
               </Link>
               <Link
                 href="/especialidades/"
-                className="rounded-[2px] border-2 border-ink px-6 py-3 text-center font-display text-lg font-semibold text-ink transition-colors hover:bg-ink hover:text-white"
+                className="rounded-[2px] border-2 border-ink px-6 py-3 text-center font-display text-lg font-semibold text-ink transition-colors hover:bg-ink hover:text-canvas"
               >
                 {hero.secondaryCta}
               </Link>
             </div>
+            <p className="mt-8 max-w-[56ch] border-l-[3px] border-accent pl-4 text-[0.95rem] leading-relaxed text-muted">{hero.proof}</p>
           </div>
 
           {/* Placa de características: la ficha de la empresa se presenta como la placa remachada de un equipo */}
           <aside className="lg:col-span-5 lg:pt-2" aria-labelledby="ficha-tecnica">
-            <div className="nameplate relative rounded-[3px] p-3 sm:p-4">
-              <Rivet className="left-2 top-2" />
-              <Rivet className="right-2 top-2" />
-              <Rivet className="bottom-2 left-2" />
-              <Rivet className="bottom-2 right-2" />
+            <Nameplate>
 
               <div className="mx-3 flex items-center justify-between gap-3 rounded-[1px] bg-accent px-3 py-2 text-white sm:mx-4">
                 <span className="flex min-w-0 items-center gap-3">
@@ -67,13 +64,13 @@ export default function HeroEditorial() {
                     }`}
                   >
                     <dt className="font-label text-[0.8rem] font-medium text-black/60">{c.label}</dt>
-                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-ink">{c.value}</dd>
+                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-black">{c.value}</dd>
                   </div>
                 ))}
                 {sede && (
                   <div className="col-span-2 px-3 py-2.5">
                     <dt className="font-label text-[0.8rem] font-medium text-black/60">{sede.label}</dt>
-                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-ink">{sede.value}</dd>
+                    <dd className="font-display text-[1.05rem] font-semibold leading-snug text-black">{sede.value}</dd>
                   </div>
                 )}
               </dl>
@@ -83,7 +80,7 @@ export default function HeroEditorial() {
                 <Stamp label="Normas" value="NFPA" />
                 <Stamp label="Ámbito" value="Lima" />
               </dl>
-            </div>
+            </Nameplate>
           </aside>
         </div>
       </section>
@@ -118,16 +115,13 @@ export default function HeroEditorial() {
   );
 }
 
-function Rivet({ className }: { className: string }) {
-  return <span aria-hidden className={`rivet absolute h-2.5 w-2.5 rounded-full ${className}`} />;
-}
 
 /** Celda estampada inferior de la placa (años, actividad, ámbito). */
 function Stamp({ label, value }: { label: string; value: string }) {
   return (
     <div className="border border-black/25 px-2.5 py-1.5">
       <dt className="font-label text-[0.75rem] font-medium text-black/60">{label}</dt>
-      <dd className="font-display text-lg font-bold leading-tight tabular-nums text-ink">{value}</dd>
+      <dd className="font-display text-lg font-bold leading-tight tabular-nums text-black">{value}</dd>
     </div>
   );
 }

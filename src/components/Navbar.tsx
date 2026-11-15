@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
 import { KgmMark } from "./KgmLogo";
+import ThemeToggle from "./ThemeToggle";
 import { useSectionIndex } from "./SiteShell";
 
 export default function Navbar() {
@@ -36,16 +37,19 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <Link
-          href="/cotizacion/"
-          aria-current={onQuote ? "page" : undefined}
-          className={`inline-flex min-h-11 shrink-0 items-center rounded-[2px] border border-accent px-4 text-sm font-medium text-white transition-colors sm:px-4 ${
-            onQuote ? "bg-accent-hover" : "bg-accent hover:border-accent-hover hover:bg-accent-hover"
-          }`}
-        >
-          <span className="sm:hidden">Cotizar</span>
-          <span className="hidden sm:inline">{nav.cta}</span>
-        </Link>
+        <div className="flex shrink-0 items-center gap-2">
+          <ThemeToggle />
+          <Link
+            href="/cotizacion/"
+            aria-current={onQuote ? "page" : undefined}
+            className={`inline-flex min-h-11 shrink-0 items-center rounded-[2px] border border-accent px-4 text-sm font-medium text-white transition-colors sm:px-4 ${
+              onQuote ? "bg-accent-hover" : "bg-accent hover:border-accent-hover hover:bg-accent-hover"
+            }`}
+          >
+            <span className="sm:hidden">Cotizar</span>
+            <span className="hidden sm:inline">{nav.cta}</span>
+          </Link>
+        </div>
       </div>
 
       {/* Móvil: acceso directo a cada sección */}

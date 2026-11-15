@@ -58,7 +58,7 @@ export default function Gallery() {
                 aria-pressed={active}
                 onClick={() => setFilter(s.slug)}
                 className={`rounded-[2px] border px-3 py-1.5 font-label text-base transition-colors ${
-                  active ? "border-ink bg-ink text-white" : "border-rule text-graphite hover:border-ink"
+                  active ? "border-ink bg-ink text-canvas" : "border-rule text-graphite hover:border-ink"
                 }`}
               >
                 {s.title}

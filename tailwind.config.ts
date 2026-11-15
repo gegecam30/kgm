@@ -1,22 +1,26 @@
 import type { Config } from "tailwindcss";
 
 // Marca KGM: rojo, plata de metal y negro.
+// Los colores viven en variables CSS (globals.css) para tener modo claro y oscuro.
+const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        canvas: "#EEEFF0", // fondo general: aluminio claro, frío
-        paper: "#F8F8F9", // superficies elevadas (formularios, paneles)
-        surface: "#E2E4E6", // superficies hundidas / hover
-        steel: "#B9BEC3", // plata de metal: placas, bordes fuertes
-        ink: "#000000", // negro de marca
-        graphite: "#24272B", // texto largo y pie de página
-        muted: "#5A6067", // texto secundario
-        accent: { DEFAULT: "#C21A1F", hover: "#9C1418" }, // rojo KGM (logo oficial)
-        grain: "#D3D6D9", // líneas finas
-        rule: "#AEB3B8", // bordes de campos y hover de bordes
-        signal: "#2F7A4F", // estado "disponible"
+        canvas: token("canvas"), // fondo general: aluminio claro / acero oscuro
+        paper: token("paper"), // superficies elevadas (formularios, paneles)
+        surface: token("surface"), // superficies hundidas / hover
+        steel: token("steel"), // plata de metal: bordes fuertes
+        ink: token("ink"), // texto principal y barras de estructura
+        graphite: token("graphite"), // texto largo
+        muted: token("muted"), // texto secundario
+        accent: { DEFAULT: token("accent"), hover: token("accent-hover") }, // rojo KGM (logo oficial)
+        grain: token("grain"), // líneas finas
+        rule: token("rule"), // bordes de campos y hover de bordes
+        signal: token("signal"), // estado "disponible"
+        night: token("night"), // pie de página: oscuro en ambos modos
       },
       fontFamily: {
         display: ["var(--font-display)", "Arial Narrow", "sans-serif"],

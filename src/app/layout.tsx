@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import { kgm, absoluteUrl } from "@/data/kgm-data";
 import SiteShell from "@/components/SiteShell";
+import { themeInitScript } from "@/data/theme";
 import "./globals.css";
 
 // Barlow: familia de raíz industrial (rotulación vial). La condensada lleva títulos y datos de placa.
@@ -29,7 +30,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EEEFF0",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#EEEFF0" },
+    { media: "(prefers-color-scheme: dark)", color: "#16181B" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -57,7 +61,10 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-PE" className={`${display.variable} ${sans.variable}`}>
+    <html lang="es-PE" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <a
           href="#contenido"

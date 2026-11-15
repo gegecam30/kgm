@@ -3,12 +3,13 @@
  * Son dibujos de referencia: no representan mediciones ni certificaciones reales.
  */
 
-const INK = "#24272B";
-const MUTED = "#5A6067";
-const ACCENT = "#C21A1F";
-const PAPER = "#F8F8F9";
-const SURFACE = "#E2E4E6";
-const GRAIN = "#D3D6D9";
+// Colores del tema (globals.css): los esquemas cambian solos con el modo oscuro.
+const INK = "rgb(var(--graphite))";
+const MUTED = "rgb(var(--muted))";
+const ACCENT = "rgb(var(--accent))";
+const PAPER = "rgb(var(--paper))";
+const SURFACE = "rgb(var(--surface))";
+const GRAIN = "rgb(var(--grain))";
 
 const svgProps = {
   viewBox: "0 30 540 310",

@@ -43,7 +43,7 @@ export interface KgmData {
   seo: { title: string; description: string; keywords: string[] };
   sections: Section[];
   nav: { rucLabel: string; cta: string };
-  hero: { eyebrow: string; headline: string; summary: string; primaryCta: string; secondaryCta: string; credentialsTitle: string };
+  hero: { proof: string; headline: string; summary: string; primaryCta: string; secondaryCta: string; credentialsTitle: string };
   credentials: Credential[];
   services: { title: string; intro: string; items: Specialty[] };
   gallery: { eyebrow: string; title: string; intro: string; items: GalleryItem[] };
@@ -233,10 +233,10 @@ export const kgm: KgmData = {
     cta: "Solicitar cotización",
   },
   hero: {
-    eyebrow: "Más de 15 años de trayectoria en Lima",
-    headline: "Sistemas contra incendio, bombeo y estructuras metálicas para edificios e industria.",
+    proof: "Más de 15 años en Lima. Obras recientes: Edificio Tempo (38 pisos), Edificio Switch (20 pisos) y Sky Tower.",
+    headline: "Sistemas contra incendio que pasan la prueba.",
     summary:
-      "Diseñamos, instalamos y mantenemos sistemas contra incendio bajo normas NFPA, con alcance y costo fijados por escrito antes de intervenir. Nuestros últimos proyectos superan los 37 pisos.",
+      "Diseñamos, instalamos y mantenemos rociadores, bombas y alarmas en edificios e industrias de Lima, y entregamos el certificado de operatividad. También bombeo, estructuras metálicas y redes.",
     primaryCta: "Solicitar cotización técnica",
     secondaryCta: "Ver especialidades",
     credentialsTitle: "Ficha técnica",

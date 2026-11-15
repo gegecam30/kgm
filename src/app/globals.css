@@ -2,6 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================================
+   Colores (canales RGB para que Tailwind pueda aplicar opacidad: bg-canvas/95)
+   Claro: aluminio, negro y rojo. Oscuro: acero pavonado, plata y rojo.
+   El modo sigue al sistema; el selector del menú lo fija en data-theme.
+   ========================================================================= */
+:root {
+  color-scheme: light;
+  --canvas: 238 239 240;
+  --paper: 248 248 249;
+  --surface: 226 228 230;
+  --steel: 185 190 195;
+  --ink: 0 0 0;
+  --graphite: 36 39 43;
+  --muted: 90 96 103;
+  --accent: 194 26 31;
+  --accent-hover: 156 20 24;
+  --grain: 211 214 217;
+  --rule: 174 179 184;
+  --signal: 47 122 79;
+  --night: 24 26 29;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --canvas: 22 24 27;
+    --paper: 31 34 38;
+    --surface: 42 46 51;
+    --steel: 94 101 108;
+    --ink: 240 241 242;
+    --graphite: 205 209 213;
+    --muted: 154 161 168;
+    --accent: 214 40 46;
+    --accent-hover: 194 26 31;
+    --grain: 50 54 59;
+    --rule: 78 84 90;
+    --signal: 72 160 108;
+    --night: 12 13 15;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: 22 24 27;
+  --paper: 31 34 38;
+  --surface: 42 46 51;
+  --steel: 94 101 108;
+  --ink: 240 241 242;
+  --graphite: 205 209 213;
+  --muted: 154 161 168;
+  --accent: 214 40 46;
+  --accent-hover: 194 26 31;
+  --grain: 50 54 59;
+  --rule: 78 84 90;
+  --signal: 72 160 108;
+  --night: 12 13 15;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,12 +65,13 @@
     scroll-padding-top: 7rem;
   }
   body {
-    @apply bg-canvas font-sans text-ink antialiased selection:bg-accent selection:text-canvas;
+    @apply bg-canvas font-sans text-ink antialiased selection:bg-accent selection:text-white;
+    transition: background-color 250ms ease, color 250ms ease;
     overflow-x: hidden;
     text-rendering: optimizeLegibility;
   }
   :focus-visible {
-    outline: 2px solid #c21a1f;
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 2px;
   }
 }
@@ -43,27 +100,99 @@
 .engraved {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
+/* Reflejo que sigue al puntero sobre el metal (--mx/--my los fija Nameplate) */
+.nameplate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(240px circle at var(--mx, 70%) var(--my, 20%), rgba(255, 255, 255, 0.45), transparent 65%);
+  mix-blend-mode: soft-light;
+  opacity: var(--glow, 0.6);
+  transition: opacity 400ms ease;
+}
 .rivet {
   background: radial-gradient(circle at 35% 30%, #f4f5f6 0%, #a6abb0 55%, #6d7277 100%);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), inset 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
+/* Ranura del tornillo */
+.rivet::before {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: calc(50% - 0.75px);
+  height: 1.5px;
+  background: rgba(40, 43, 47, 0.75);
+  transform: rotate(-35deg);
+}
 
 /* =========================================================================
-   Entrada de sección (350 ms). fill-mode "backwards": al terminar no queda
-   ningún transform aplicado, así el texto se renderiza nítido.
+   Cambio de sección: fundido corto con un leve ascenso, sin deslizar de lado.
+   fill-mode "backwards": al terminar no queda transform aplicado (texto nítido).
    ========================================================================= */
-@keyframes mechanicalSlideEnter {
+@keyframes sectionEnter {
   from {
     opacity: 0;
-    transform: translate3d(36px, 0, 0);
+    transform: translate3d(0, 10px, 0);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-.mechanical-slide-scenario {
-  animation: mechanicalSlideEnter 350ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+.section-enter {
+  animation: sectionEnter 420ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* =========================================================================
+   Momento de entrada de la portada (una sola vez por visita a Inicio):
+   el titular se revela, la placa se asienta y los tornillos
+   se aprietan uno tras otro.
+   ========================================================================= */
+@keyframes headlineReveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 0.35em, 0);
+  }
+  to {
+    clip-path: inset(0 0 -10% 0);
+    transform: none;
+  }
+}
+.headline-reveal {
+  animation: headlineReveal 900ms cubic-bezier(0.22, 1, 0.36, 1) 120ms backwards;
+}
+@keyframes plateSettle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0) rotate(-1.2deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translate3d(0, 2px, 0) rotate(0.15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.plate-settle {
+  animation: plateSettle 900ms cubic-bezier(0.22, 1, 0.36, 1) 350ms backwards;
+}
+@keyframes screwTighten {
+  from {
+    transform: rotate(-300deg) scale(1.35);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.screw-tighten {
+  animation: screwTighten 520ms cubic-bezier(0.34, 1.3, 0.64, 1) backwards;
 }
 
 /* Línea de progreso superior */
@@ -88,6 +217,8 @@
 .animate-hydraulic-1 { animation: hydraulicImpulse 380ms cubic-bezier(0.16, 1, 0.3, 1) 70ms backwards; }
 .animate-hydraulic-2 { animation: hydraulicImpulse 380ms cubic-bezier(0.16, 1, 0.3, 1) 140ms backwards; }
 .animate-hydraulic-3 { animation: hydraulicImpulse 380ms cubic-bezier(0.16, 1, 0.3, 1) 210ms backwards; }
+.animate-hydraulic-4 { animation: hydraulicImpulse 380ms cubic-bezier(0.16, 1, 0.3, 1) 280ms backwards; }
+.animate-hydraulic-5 { animation: hydraulicImpulse 380ms cubic-bezier(0.16, 1, 0.3, 1) 350ms backwards; }
 
 /* Cambio de esquema al elegir otra especialidad */
 @keyframes diagramEnter {

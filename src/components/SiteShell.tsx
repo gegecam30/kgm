@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { kgm, whatsappHref } from "@/data/kgm-data";
 import Navbar from "./Navbar";
 import { KgmMark } from "./KgmLogo";
@@ -21,8 +21,6 @@ export function useSectionIndex(): number {
 }
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const index = useSectionIndex();
   const pathname = usePathname();
 
   // Línea de progreso superior: se dispara en cada cambio de ruta, no en la carga inicial.
@@ -35,24 +33,6 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     }
     setProgressKey((k) => k + 1);
   }, [pathname]);
-
-  // Flechas izquierda/derecha para pasar de sección (sin interferir con formularios).
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
-      const el = e.target as HTMLElement | null;
-      if (el && (["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName) || el.isContentEditable)) return;
-      if (el?.closest("[role='tablist']")) return; // las pestañas usan las flechas
-      if (index < 0) return;
-      if (e.key === "ArrowRight" && index < SECTIONS.length - 1) router.push(SECTIONS[index + 1].href);
-      if (e.key === "ArrowLeft" && index > 0) router.push(SECTIONS[index - 1].href);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [index, router]);
-
-  const prev = index > 0 ? SECTIONS[index - 1] : null;
-  const next = index >= 0 && index < SECTIONS.length - 1 ? SECTIONS[index + 1] : null;
 
   return (
     <div className="relative flex min-h-screen flex-col bg-canvas text-ink">
@@ -68,75 +48,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 
       <SiteFooter />
       <WhatsAppFloat />
-
-      {/* Barra técnica inferior: índice de secciones y paso anterior/siguiente */}
-      <nav
-        aria-label="Secciones"
-        className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-accent bg-ink pb-[env(safe-area-inset-bottom)] text-white"
-      >
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-          <p className="flex min-w-0 items-baseline gap-3 font-label text-base">
-            <span className="font-semibold tabular-nums">
-              {index >= 0 ? SECTIONS[index].code : "--"}
-              <span className="text-white/45"> / {String(SECTIONS.length).padStart(2, "0")}</span>
-            </span>
-            {index >= 0 && <span className="truncate text-white/70 lg:hidden">{SECTIONS[index].label}</span>}
-          </p>
-
-          <ol className="hidden items-center gap-1 lg:flex">
-            {SECTIONS.map((s, i) => {
-              const active = i === index;
-              return (
-                <li key={s.href}>
-                  <Link
-                    href={s.href}
-                    aria-current={active ? "page" : undefined}
-                    className={`relative block px-3 py-1.5 font-label text-base transition-colors ${
-                      active
-                        ? "font-semibold text-white after:absolute after:inset-x-3 after:-bottom-[9px] after:h-[3px] after:bg-accent"
-                        : "text-white/60 hover:text-white"
-                    }`}
-                  >
-                    <span className={active ? "mr-1.5 text-accent" : "mr-1.5 text-white/40"}>{s.code}</span>
-                    {s.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
-
-          <div className="flex shrink-0 items-center gap-2">
-            <StepLink section={prev} direction="prev" />
-            <StepLink section={next} direction="next" />
-          </div>
-        </div>
-      </nav>
     </div>
-  );
-}
-
-function StepLink({ section, direction }: { section: (typeof SECTIONS)[number] | null; direction: "prev" | "next" }) {
-  const label = direction === "prev" ? "Anterior" : "Siguiente";
-  const base =
-    "inline-flex min-h-10 items-center gap-1.5 rounded-[2px] border border-white/25 px-3 font-label text-base text-white transition-colors";
-  const content = (
-    <>
-      {direction === "prev" && <span aria-hidden>←</span>}
-      <span>{label}</span>
-      {direction === "next" && <span aria-hidden>→</span>}
-    </>
-  );
-  if (!section) {
-    return (
-      <span aria-disabled="true" className={`${base} cursor-default opacity-30`}>
-        {content}
-      </span>
-    );
-  }
-  return (
-    <Link href={section.href} aria-label={`${label}: ${section.label}`} className={`${base} hover:border-white/60 hover:bg-white/10`}>
-      {content}
-    </Link>
   );
 }
 
@@ -147,8 +59,7 @@ function SiteFooter() {
   const link = "inline-block py-1 text-white/70 transition-colors hover:text-white";
 
   return (
-    // el padding inferior deja espacio para la barra fija de secciones
-    <footer className="border-t-[3px] border-accent bg-graphite pb-[calc(3.5rem+env(safe-area-inset-bottom))] text-white">
+    <footer className="border-t-[3px] border-accent bg-night pb-[env(safe-area-inset-bottom)] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
           <p className="flex items-center gap-3 font-display text-2xl font-bold tracking-wide">
@@ -256,7 +167,7 @@ function SiteFooter() {
   );
 }
 
-/** Botón flotante de WhatsApp, sobre la barra de secciones. Solo aparece si hay número configurado. */
+/** Botón flotante de WhatsApp. Solo aparece si hay número configurado. */
 function WhatsAppFloat() {
   const wa = whatsappHref("Hola, quisiera una cotización técnica.");
   if (!wa) return null;
@@ -266,7 +177,7 @@ function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Escribir por WhatsApp"
-      className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-signal text-white shadow-lg"
+      className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-full bg-signal text-white shadow-lg"
     >
       <svg aria-hidden viewBox="0 0 24 24" className="h-7 w-7" fill="currentColor">
         <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z" />
