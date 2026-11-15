@@ -19,6 +19,10 @@ export interface Specialty {
 export interface ProtocolStep { code: string; title: string; description: string }
 export interface Risk { title: string; description: string }
 export interface GalleryItem {
+  /** Dirección de su ficha: /trabajos/<slug>/ */
+  slug: string;
+  /** Texto de la ficha del trabajo. Vacío = la ficha indica que está en preparación. */
+  description?: string;
   /**
    * Ruta de la foto dentro de /public (ej. "/galeria/cuarto-de-bombas.jpg").
    * Vacía = se muestra el marco "Foto pendiente".
@@ -233,10 +237,11 @@ export const kgm: KgmData = {
     cta: "Solicitar cotización",
   },
   hero: {
-    proof: "Más de 15 años en Lima. Obras recientes: Edificio Tempo (38 pisos), Edificio Switch (20 pisos) y Sky Tower.",
-    headline: "Sistemas contra incendio que pasan la prueba.",
+    proof: "Más de 15 años en Lima. Obras: edificios Tempo, Switch, Sky Tower, B‑51 y Allegro, entre otras.",
+    // El edificio Tempo (38 pisos) es la obra más alta del brochure: el titular nombra ese recorrido.
+    headline: "Del cuarto de bombas al piso 38.",
     summary:
-      "Diseñamos, instalamos y mantenemos rociadores, bombas y alarmas en edificios e industrias de Lima, y entregamos el certificado de operatividad. También bombeo, estructuras metálicas y redes.",
+      "Diseñamos, instalamos y mantenemos sistemas contra incendio en edificios e industrias de Lima: rociadores, bombas y alarmas, con certificado de operatividad. También bombeo, estructuras metálicas y redes.",
     primaryCta: "Solicitar cotización técnica",
     secondaryCta: "Ver especialidades",
     credentialsTitle: "Ficha técnica",
@@ -260,14 +265,14 @@ export const kgm: KgmData = {
     eyebrow: "Trabajos realizados",
     title: "Instalaciones que mantenemos",
     intro: "Registro fotográfico de intervenciones en edificios, oficinas e instituciones de Lima.",
-    // TODO: colocar las fotos en public/galeria/ y completar src (y opcionalmente lqip).
+    // TODO: colocar las fotos en public/galeria/ y completar src (y opcionalmente lqip y description).
     items: [
-      { src: "", alt: "Red de rociadores automáticos instalada en techo", caption: "Red de rociadores automáticos", specialty: "contraincendio" },
-      { src: "", alt: "Cuarto de bombas contra incendio con bomba principal y jockey", caption: "Cuarto de bombas contra incendio", specialty: "contraincendio" },
-      { src: "", alt: "Panel de detección y alarma contra incendio", caption: "Panel de detección y alarma", specialty: "contraincendio" },
-      { src: "", alt: "Cuarto de bombas con electrobombas y tablero alternador", caption: "Electrobombas y tablero alternador", specialty: "bombeo" },
-      { src: "", alt: "Estructura metálica soldada en planta industrial", caption: "Estructura metálica soldada", specialty: "estructuras" },
-      { src: "", alt: "Tablero eléctrico general después del mantenimiento", caption: "Mantenimiento de tablero general", specialty: "redes" },
+      { slug: "red-de-rociadores", src: "", alt: "Red de rociadores automáticos instalada en techo", caption: "Red de rociadores automáticos", specialty: "contraincendio" },
+      { slug: "cuarto-de-bombas-contra-incendio", src: "", alt: "Cuarto de bombas contra incendio con bomba principal y jockey", caption: "Cuarto de bombas contra incendio", specialty: "contraincendio" },
+      { slug: "panel-de-deteccion-y-alarma", src: "", alt: "Panel de detección y alarma contra incendio", caption: "Panel de detección y alarma", specialty: "contraincendio" },
+      { slug: "electrobombas-y-tablero-alternador", src: "", alt: "Cuarto de bombas con electrobombas y tablero alternador", caption: "Electrobombas y tablero alternador", specialty: "bombeo" },
+      { slug: "estructura-metalica-soldada", src: "", alt: "Estructura metálica soldada en planta industrial", caption: "Estructura metálica soldada", specialty: "estructuras" },
+      { slug: "mantenimiento-de-tablero-general", src: "", alt: "Tablero eléctrico general después del mantenimiento", caption: "Mantenimiento de tablero general", specialty: "redes" },
     ],
   },
   references: {

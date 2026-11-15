@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { kgm, publicPath, type GalleryItem } from "@/data/kgm-data";
 
 export default function Gallery() {
@@ -69,16 +70,32 @@ export default function Gallery() {
 
         <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <li key={item.alt}>
-              <figure>
-                <div className="border border-steel p-1.5">
-                  <Photo item={item} />
-                </div>
-                <figcaption className="mt-3">
-                  <p className="font-display text-xl font-semibold leading-snug text-ink">{item.caption}</p>
-                  <p className="mt-0.5 text-sm text-muted">{specialtyTitle(item.specialty)}</p>
-                </figcaption>
-              </figure>
+            <li key={item.slug}>
+              {/* Al pasar el cursor la tarjeta se eleva, la foto se acerca y aparece el filo rojo */}
+              <Link
+                href={`/trabajos/${item.slug}/`}
+                className="group block transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:-translate-y-1"
+              >
+                <figure>
+                  <div className="overflow-hidden border border-steel p-1.5 transition-[border-color,box-shadow] duration-300 group-hover:border-accent group-hover:shadow-[0_18px_30px_-18px_rgba(0,0,0,0.55)] group-focus-visible:border-accent">
+                    <div className="overflow-hidden">
+                      <div className="transition-transform duration-500 ease-out group-hover:scale-[1.05] group-focus-visible:scale-[1.05]">
+                        <Photo item={item} />
+                      </div>
+                    </div>
+                  </div>
+                  <figcaption className="mt-3">
+                    <p className="font-display text-xl font-semibold leading-snug text-ink transition-colors group-hover:text-accent">{item.caption}</p>
+                    <p className="mt-0.5 flex items-baseline justify-between gap-3 text-sm text-muted">
+                      {specialtyTitle(item.specialty)}
+                      <span className="translate-x-[-4px] font-medium text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100">
+                        Ver ficha
+                      </span>
+                    </p>
+                    <span aria-hidden className="mt-2 block h-[3px] w-0 bg-accent transition-[width] duration-500 ease-out group-hover:w-full group-focus-visible:w-full" />
+                  </figcaption>
+                </figure>
+              </Link>
             </li>
           ))}
         </ul>
@@ -94,7 +111,7 @@ type Status = "pending" | "loading" | "loaded" | "error";
  * (o la versión borrosa `lqip` si existe), así el espacio nunca queda vacío con mala señal.
  * El marco tiene proporción fija para que la página no salte al cargar.
  */
-function Photo({ item }: { item: GalleryItem }) {
+export function Photo({ item }: { item: GalleryItem }) {
   const [status, setStatus] = useState<Status>(item.src ? "loading" : "pending");
   const imgRef = useRef<HTMLImageElement>(null);
 

@@ -16,7 +16,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:gap-6 sm:px-6 sm:py-3">
         <div className="flex min-w-0 items-center gap-4">
           <Link href="/" className="flex items-center gap-2.5 py-1 font-display text-xl font-semibold text-ink transition-opacity hover:opacity-80">
-            <KgmMark className="h-10 w-10 shrink-0" />
+            <KgmMark badge className="h-11 w-11 shrink-0 drop-shadow-sm" />
             <span className="sm:hidden">{identity.shortName}</span>
             <span className="hidden sm:inline">{identity.name}</span>
           </Link>

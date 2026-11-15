@@ -44,9 +44,7 @@ export default function HeroEditorial() {
 
               <div className="mx-3 flex items-center justify-between gap-3 rounded-[1px] bg-accent px-3 py-2 text-white sm:mx-4">
                 <span className="flex min-w-0 items-center gap-3">
-                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white p-0.5">
-                    <KgmMark className="h-full w-full" />
-                  </span>
+                  <KgmMark badge className="h-11 w-11 shrink-0" />
                   <h2 id="ficha-tecnica" className="font-display text-xl font-bold tracking-wide">
                     {identity.name}
                   </h2>

@@ -17,7 +17,8 @@ export function normalizePath(p: string | null): string {
 
 export function useSectionIndex(): number {
   const pathname = normalizePath(usePathname());
-  return SECTIONS.findIndex((s) => s.href === pathname);
+  // Las fichas (/trabajos/<slug>/) cuentan como su sección.
+  return SECTIONS.findIndex((s) => s.href === pathname || (s.href !== "/" && pathname.startsWith(s.href)));
 }
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
@@ -35,7 +36,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-canvas text-ink">
+    <div className="relative flex min-h-screen flex-col text-ink">
       <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[2px]">
         {progressKey > 0 && <div key={progressKey} className="h-full bg-accent animate-top-progress" />}
       </div>
@@ -63,9 +64,7 @@ function SiteFooter() {
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
           <p className="flex items-center gap-3 font-display text-2xl font-bold tracking-wide">
-            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white p-0.5">
-              <KgmMark className="h-full w-full" />
-            </span>
+            <KgmMark badge className="h-12 w-12 shrink-0" />
             {identity.name}
           </p>
           <p className="mt-3 max-w-[42ch] text-sm leading-relaxed text-white/70">{footer.about}</p>

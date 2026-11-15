@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: s.href === "/" ? 1 : 0.8,
     })),
+    ...kgm.gallery.items.map((g) => ({ url: absoluteUrl(`/trabajos/${g.slug}/`), changeFrequency: "monthly" as const, priority: 0.5 })),
     { url: absoluteUrl("/privacidad/"), changeFrequency: "yearly" as const, priority: 0.3 },
   ];
 }

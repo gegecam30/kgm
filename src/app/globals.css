@@ -22,6 +22,8 @@
   --rule: 174 179 184;
   --signal: 47 122 79;
   --night: 24 26 29;
+  /* Plancha estriada (piso de cuartos de bombas y plataformas): textura del fondo */
+  --tread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cellipse cx='7.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(45 7.6 7.6)' fill='%23000' fill-opacity='.07'/%3E%3Cellipse cx='6.7' cy='6.7' rx='5' ry='1.2' transform='rotate(45 6.7 6.7)' fill='%23fff' fill-opacity='.75'/%3E%3Cellipse cx='21.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(-45 21.6 7.6)' fill='%23000' fill-opacity='.07'/%3E%3Cellipse cx='20.7' cy='6.7' rx='5' ry='1.2' transform='rotate(-45 20.7 6.7)' fill='%23fff' fill-opacity='.75'/%3E%3Cellipse cx='7.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(-45 7.6 21.6)' fill='%23000' fill-opacity='.07'/%3E%3Cellipse cx='6.7' cy='20.7' rx='5' ry='1.2' transform='rotate(-45 6.7 20.7)' fill='%23fff' fill-opacity='.75'/%3E%3Cellipse cx='21.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(45 21.6 21.6)' fill='%23000' fill-opacity='.07'/%3E%3Cellipse cx='20.7' cy='20.7' rx='5' ry='1.2' transform='rotate(45 20.7 20.7)' fill='%23fff' fill-opacity='.75'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -39,6 +41,7 @@
     --rule: 78 84 90;
     --signal: 72 160 108;
     --night: 12 13 15;
+    --tread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cellipse cx='7.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(45 7.6 7.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='6.7' cy='6.7' rx='5' ry='1.2' transform='rotate(45 6.7 6.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='21.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(-45 21.6 7.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='20.7' cy='6.7' rx='5' ry='1.2' transform='rotate(-45 20.7 6.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='7.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(-45 7.6 21.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='6.7' cy='20.7' rx='5' ry='1.2' transform='rotate(-45 6.7 20.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='21.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(45 21.6 21.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='20.7' cy='20.7' rx='5' ry='1.2' transform='rotate(45 20.7 20.7)' fill='%23fff' fill-opacity='.035'/%3E%3C/svg%3E");
   }
 }
 :root[data-theme="dark"] {
@@ -56,6 +59,7 @@
   --rule: 78 84 90;
   --signal: 72 160 108;
   --night: 12 13 15;
+  --tread: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cellipse cx='7.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(45 7.6 7.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='6.7' cy='6.7' rx='5' ry='1.2' transform='rotate(45 6.7 6.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='21.6' cy='7.6' rx='5.2' ry='1.5' transform='rotate(-45 21.6 7.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='20.7' cy='6.7' rx='5' ry='1.2' transform='rotate(-45 20.7 6.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='7.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(-45 7.6 21.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='6.7' cy='20.7' rx='5' ry='1.2' transform='rotate(-45 6.7 20.7)' fill='%23fff' fill-opacity='.035'/%3E%3Cellipse cx='21.6' cy='21.6' rx='5.2' ry='1.5' transform='rotate(45 21.6 21.6)' fill='%23000' fill-opacity='.4'/%3E%3Cellipse cx='20.7' cy='20.7' rx='5' ry='1.2' transform='rotate(45 20.7 20.7)' fill='%23fff' fill-opacity='.035'/%3E%3C/svg%3E");
 }
 
 @layer base {
@@ -66,6 +70,7 @@
   }
   body {
     @apply bg-canvas font-sans text-ink antialiased selection:bg-accent selection:text-white;
+    background-image: var(--tread);
     transition: background-color 250ms ease, color 250ms ease;
     overflow-x: hidden;
     text-rendering: optimizeLegibility;

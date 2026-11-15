@@ -14,8 +14,12 @@ function polar(r: number, deg: number) {
   return { x: 100 + r * Math.cos(rad), y: 100 - r * Math.sin(rad) };
 }
 
-/** Sin `title` el logo es decorativo (acompaña al nombre escrito) y se oculta a lectores de pantalla. */
-export function KgmMark({ className = "", title }: { className?: string; title?: string }) {
+/**
+ * Sin `title` el logo es decorativo (acompaña al nombre escrito) y se oculta a lectores de pantalla.
+ * `badge`: el logo va sobre un disco blanco con filo de acero, con margen para que los tornillos
+ * no toquen el borde. Es la versión que se usa en el sitio, sobre fondo claro u oscuro.
+ */
+export function KgmMark({ className = "", title, badge = false }: { className?: string; title?: string; badge?: boolean }) {
   // Ids únicos: el logo aparece varias veces por página (menú, placa, pie).
   const id = useId().replace(/:/g, "");
   return (
@@ -36,6 +40,10 @@ export function KgmMark({ className = "", title }: { className?: string; title?:
         </mask>
       </defs>
 
+      {badge && <circle cx="100" cy="100" r="98" fill="#FFFFFF" stroke="#B9BEC3" strokeWidth="3" />}
+      <g transform={badge ? "translate(100 100) scale(0.82) translate(-100 -100)" : undefined}>
+      {/* Centro blanco, como en el membrete */}
+      <circle cx="100" cy="100" r="54" fill="#FFFFFF" />
       <circle cx="100" cy="100" r="92" fill={`url(#${id}-steel)`} mask={`url(#${id}-ring)`} />
 
       {SCREW_ANGLES.map((a) => {
@@ -53,6 +61,7 @@ export function KgmMark({ className = "", title }: { className?: string; title?:
         <path d="M4.5 0 V40 M9 20 L40 2 M9 20 L40 38" />
         <path d="M91 4.5 H60.5 a8 8 0 0 0 -8 8 V27.5 a8 8 0 0 0 8 8 H83 a8 8 0 0 0 8 -8 V20 H72" />
         <path d="M104.5 40 V12.5 a8 8 0 0 1 8 -8 H127.5 a8 8 0 0 1 8 8 V40 M120 4.5 V40" />
+      </g>
       </g>
     </svg>
   );
