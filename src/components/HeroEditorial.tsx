@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { kgm, yearsOperating } from "@/data/kgm-data";
+import { kgm } from "@/data/kgm-data";
+import { KgmMark } from "./KgmLogo";
 
 export default function HeroEditorial() {
   const { hero, credentials, identity, services } = kgm;
-  const years = yearsOperating();
 
   // La placa toma los datos de credenciales: la razón social va en la franja roja,
   // el resto en celdas de dos columnas y la sede a todo el ancho.
@@ -45,10 +45,15 @@ export default function HeroEditorial() {
               <Rivet className="bottom-2 left-2" />
               <Rivet className="bottom-2 right-2" />
 
-              <div className="mx-3 flex items-baseline justify-between gap-3 rounded-[1px] bg-accent px-4 py-2.5 text-white sm:mx-4">
-                <h2 id="ficha-tecnica" className="font-display text-xl font-bold tracking-wide">
-                  {identity.name}
-                </h2>
+              <div className="mx-3 flex items-center justify-between gap-3 rounded-[1px] bg-accent px-3 py-2 text-white sm:mx-4">
+                <span className="flex min-w-0 items-center gap-3">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white p-0.5">
+                    <KgmMark className="h-full w-full" />
+                  </span>
+                  <h2 id="ficha-tecnica" className="font-display text-xl font-bold tracking-wide">
+                    {identity.name}
+                  </h2>
+                </span>
                 <span className="shrink-0 font-display text-sm font-medium text-white/85">{hero.credentialsTitle}</span>
               </div>
 
@@ -74,8 +79,8 @@ export default function HeroEditorial() {
               </dl>
 
               <dl className="engraved mx-3 mb-3 mt-3 grid grid-cols-3 gap-2 sm:mx-4">
-                <Stamp label="En operación" value={`${years} años`} />
-                <Stamp label="CIIU" value={identity.ciiu.map((c) => c.replace("CIIU ", "")).join(" / ")} />
+                <Stamp label="Edificios" value="Hasta 38 pisos" />
+                <Stamp label="Normas" value="NFPA" />
                 <Stamp label="Ámbito" value="Lima" />
               </dl>
             </div>

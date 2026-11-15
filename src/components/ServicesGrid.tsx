@@ -4,17 +4,22 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "re
 import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
 import {
+  FireSprinklerDiagram,
   TurbineCisternDiagram,
+  WeldedStructureDiagram,
   StructuralIsometricDiagram,
   SanitaryElectricalDiagram,
   PrecisionGearsDiagram,
 } from "./Diagrams";
 
-const DIAGRAMS: Record<string, { fig: string; status: string; Component: () => JSX.Element }> = {
-  bombeo: { fig: "Fig. 01 · Electrobomba centrífuga y cisterna", status: "Presurización", Component: TurbineCisternDiagram },
-  acondicionamiento: { fig: "Fig. 02 · Isométrico de tabique en drywall", status: "Cotas en mm", Component: StructuralIsometricDiagram },
-  redes: { fig: "Fig. 03 · Red de agua y tablero trifásico", status: "Flujo continuo", Component: SanitaryElectricalDiagram },
-  suministro: { fig: "Fig. 04 · Transmisión por engranajes", status: "i = 1.33", Component: PrecisionGearsDiagram },
+// El número de figura sigue al código de la especialidad (Fig. 01, Fig. 02…).
+const DIAGRAMS: Record<string, { name: string; status: string; Component: () => JSX.Element }> = {
+  contraincendio: { name: "Red húmeda de rociadores y bombas", status: "Red presurizada", Component: FireSprinklerDiagram },
+  bombeo: { name: "Electrobomba centrífuga y cisterna", status: "Presurización", Component: TurbineCisternDiagram },
+  estructuras: { name: "Unión soldada viga–columna", status: "Soldadura", Component: WeldedStructureDiagram },
+  acondicionamiento: { name: "Isométrico de tabique en drywall", status: "Cotas en mm", Component: StructuralIsometricDiagram },
+  redes: { name: "Red de agua y tablero trifásico", status: "Flujo continuo", Component: SanitaryElectricalDiagram },
+  suministro: { name: "Transmisión por engranajes", status: "i = 1.33", Component: PrecisionGearsDiagram },
 };
 
 export default function ServicesGrid() {
@@ -65,7 +70,8 @@ export default function ServicesGrid() {
   };
 
   const current = items.find((s) => s.slug === active) ?? items[0];
-  const { fig, status, Component } = DIAGRAMS[current.slug];
+  const { name, status, Component } = DIAGRAMS[current.slug];
+  const fig = `Fig. ${current.code} · ${name}`;
 
   return (
     <section className="border-b border-grain py-12 lg:py-16">

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { kgm, publicPath, type GalleryItem } from "@/data/kgm-data";
 
 export default function Gallery() {
-  const { gallery, services } = kgm;
+  const { gallery, services, references } = kgm;
   const [filter, setFilter] = useState<string | null>(null);
   const specialtyTitle = (slug: string) => services.items.find((s) => s.slug === slug)?.title ?? "";
   const items = gallery.items.filter((g) => !filter || g.specialty === filter);
@@ -21,6 +21,31 @@ export default function Gallery() {
           </div>
           <p className="max-w-[48ch] self-end text-base leading-relaxed text-graphite lg:col-span-5">{gallery.intro}</p>
         </header>
+
+        {/* Obras y clientes de referencia (brochure KGM) */}
+        <div className="mb-14 grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h2 className="border-t-[3px] border-ink pt-3 font-display text-2xl font-semibold text-ink">{references.buildingsTitle}</h2>
+            <ul className="mt-4 grid gap-x-8 sm:grid-cols-2">
+              {references.buildings.map((b) => (
+                <li key={b.name} className="flex items-baseline justify-between gap-4 border-b border-grain py-2.5">
+                  <span className="font-display text-lg font-medium text-ink">{b.name}</span>
+                  {b.detail && <span className="shrink-0 font-label text-base text-accent">{b.detail}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:col-span-5">
+            <h2 className="border-t-[3px] border-ink pt-3 font-display text-2xl font-semibold text-ink">{references.clientsTitle}</h2>
+            <ul className="mt-4 grid gap-1.5 text-[0.95rem] leading-snug text-graphite">
+              {references.clients.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <h2 className="mb-4 border-t-[3px] border-ink pt-3 font-display text-2xl font-semibold text-ink">Registro fotográfico</h2>
 
         {/* Filtro por especialidad: útil cuando la galería crezca */}
         <div role="group" aria-label="Filtrar por especialidad" className="mb-8 flex flex-wrap gap-2">

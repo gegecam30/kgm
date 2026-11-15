@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { kgm, whatsappHref } from "@/data/kgm-data";
 import Navbar from "./Navbar";
+import { KgmMark } from "./KgmLogo";
 
 const SECTIONS = kgm.sections;
 
@@ -150,7 +151,12 @@ function SiteFooter() {
     <footer className="border-t-[3px] border-accent bg-graphite pb-[calc(3.5rem+env(safe-area-inset-bottom))] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
-          <p className="font-display text-2xl font-bold tracking-wide">{identity.name}</p>
+          <p className="flex items-center gap-3 font-display text-2xl font-bold tracking-wide">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white p-0.5">
+              <KgmMark className="h-full w-full" />
+            </span>
+            {identity.name}
+          </p>
           <p className="mt-3 max-w-[42ch] text-sm leading-relaxed text-white/70">{footer.about}</p>
           <p className="mt-5 font-label text-base text-white/60">
             RUC {identity.ruc} <span className="text-white/30">|</span> Proveedor RNP <span className="text-white/30">|</span> SCTR vigente
@@ -211,6 +217,13 @@ function SiteFooter() {
               <li>
                 <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="hover:text-white">
                   {contact.phone}
+                </a>
+              </li>
+            )}
+            {contact.landline && (
+              <li>
+                <a href={`tel:+511${contact.landline.replace(/\D/g, "").replace(/^01/, "")}`} className="hover:text-white">
+                  {contact.landline}
                 </a>
               </li>
             )}

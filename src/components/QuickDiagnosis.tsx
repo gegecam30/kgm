@@ -35,7 +35,7 @@ export default function QuickDiagnosis() {
           <p className="max-w-[48ch] self-end text-base leading-relaxed text-muted lg:col-span-5">{diagnosis.intro}</p>
         </header>
 
-        <div className="grid gap-px border-y border-grain border-t-ink bg-grain sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-px border-y border-grain border-t-ink bg-grain sm:grid-cols-2 lg:grid-cols-3">
           {services.items.map((s) => {
             const highlighted = suggestion?.slug === s.slug;
             return (

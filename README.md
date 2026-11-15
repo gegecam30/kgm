@@ -1,6 +1,6 @@
 # KGM INDUSTRIAS E.I.R.L. — sitio web
 
-Sitio corporativo de KGM INDUSTRIAS E.I.R.L. (mantenimiento de sistemas de bombeo, acondicionamiento de edificios y redes sanitarias y eléctricas en Lima).
+Sitio corporativo de KGM INDUSTRIAS E.I.R.L. (sistemas contra incendio, bombeo, estructuras metálicas, acondicionamiento y redes en Lima).
 
 Next.js 14 (App Router) + Tailwind CSS, exportado como sitio estático y publicado en GitHub Pages.
 
@@ -9,8 +9,9 @@ Next.js 14 (App Router) + Tailwind CSS, exportado como sitio estático y publica
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Presentación, ficha técnica (cajetín) e índice de especialidades |
-| `/especialidades/` | Las cuatro especialidades con su esquema técnico. Cada una tiene su ancla: `#bombeo`, `#acondicionamiento`, `#redes`, `#suministro` |
+| `/especialidades/` | Las seis especialidades con su esquema técnico. Cada una tiene su ancla: `#contraincendio`, `#bombeo`, `#estructuras`, `#acondicionamiento`, `#redes`, `#suministro` |
 | `/protocolo/` | Flujo de trabajo en tres etapas y riesgos que mitiga |
+| `/trabajos/` | Obras y clientes de referencia (del brochure) y galería de fotos |
 | `/privacidad/` | Política de privacidad (Ley 29733) — revisar con asesoría legal |
 | `/cotizacion/` | Formulario de cotización (abre el correo del visitante) y datos de la sede. Acepta `?area=<ancla>` para preseleccionar la especialidad |
 
@@ -25,11 +26,11 @@ src/
 
 Todos los textos, datos de contacto y servicios están en `src/data/kgm-data.ts`.
 
-Antes de publicar, completar en `contact`:
+Datos de contacto en `contact`:
 
-- `phone`: teléfono público. Si queda vacío, no se muestra.
-- `whatsapp`: número solo con dígitos, con código de país (ej. `51987654321`). Si queda vacío, no aparece el botón de WhatsApp.
-- `email`: confirmar que el buzón existe; el formulario envía la solicitud a esa dirección.
+- `phone` / `landline`: celular y teléfono fijo (tomados del brochure y del membrete). Vacíos = no se muestran.
+- `whatsapp`: número solo con dígitos, con código de país (ej. `51987654321`). Vacío = no aparece el botón de WhatsApp.
+- `email`: buzón que recibe las solicitudes del formulario.
 - `formEndpoint`: URL de un servicio de formularios (Formspree, Web3Forms…). Con ella el formulario envía la solicitud directamente; vacío, abre el programa de correo del visitante.
 - `complaintsBookUrl`: enlace al Libro de Reclamaciones virtual. Vacío = no aparece en el pie.
 

@@ -101,6 +101,7 @@ export default function QuoteSection() {
     { label: contact.labels.address, value: contact.address },
     { label: contact.labels.email, value: contact.email, href: `mailto:${contact.email}` },
     contact.phone && { label: contact.labels.phone, value: contact.phone, href: `tel:${contact.phone.replace(/[^\d+]/g, "")}` },
+    contact.landline && { label: contact.labels.landline, value: contact.landline, href: `tel:+511${contact.landline.replace(/\D/g, "").replace(/^01/, "")}` },
     { label: contact.labels.hours, value: contact.hours },
   ].filter(Boolean) as { label: string; value: string; href?: string }[];
 

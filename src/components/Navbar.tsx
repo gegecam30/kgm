@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { kgm } from "@/data/kgm-data";
+import { KgmMark } from "./KgmLogo";
 import { useSectionIndex } from "./SiteShell";
 
 export default function Navbar() {
@@ -12,8 +13,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-grain bg-canvas/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:gap-6 sm:px-6 sm:py-3">
-        <div className="flex min-w-0 items-baseline gap-4">
-          <Link href="/" className="py-2 font-display text-xl tracking-tight text-ink transition-opacity hover:opacity-80">
+        <div className="flex min-w-0 items-center gap-4">
+          <Link href="/" className="flex items-center gap-2.5 py-1 font-display text-xl font-semibold text-ink transition-opacity hover:opacity-80">
+            <KgmMark className="h-10 w-10 shrink-0" />
             <span className="sm:hidden">{identity.shortName}</span>
             <span className="hidden sm:inline">{identity.name}</span>
           </Link>

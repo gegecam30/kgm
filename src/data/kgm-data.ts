@@ -34,6 +34,7 @@ export interface GalleryItem {
   /** slug de la especialidad relacionada */
   specialty: string;
 }
+export interface Reference { name: string; detail?: string }
 export interface Section { href: string; code: string; label: string; title: string; description: string }
 
 export interface KgmData {
@@ -46,13 +47,14 @@ export interface KgmData {
   credentials: Credential[];
   services: { title: string; intro: string; items: Specialty[] };
   gallery: { eyebrow: string; title: string; intro: string; items: GalleryItem[] };
+  references: { buildingsTitle: string; buildings: Reference[]; clientsTitle: string; clients: string[] };
   diagnosis: { eyebrow: string; title: string; intro: string; empty: string; cta: string; scopeHeading: string };
   protocol: { title: string; intro: string; risksTitle: string; risks: Risk[]; stepsTitle: string; steps: ProtocolStep[] };
   contact: {
     title: string;
     intro: string;
     legalTitle: string;
-    labels: { address: string; email: string; phone: string; whatsapp: string; hours: string };
+    labels: { address: string; email: string; phone: string; landline: string; whatsapp: string; hours: string };
     address: string;
     email: string;
     /** Enlace a Google Maps de la sede. */
@@ -69,6 +71,8 @@ export interface KgmData {
      * Dejar vacío para ocultarlo: el sitio no muestra datos de relleno.
      */
     phone: string;
+    /** Teléfono fijo, formato libre. Vacío = no se muestra. */
+    landline: string;
     /**
      * Número de WhatsApp en formato internacional SOLO dígitos (ej. "51987654321").
      * Dejar vacío para ocultar el botón de WhatsApp.
@@ -89,6 +93,19 @@ export interface KgmData {
 const services: Specialty[] = [
   {
     code: "01",
+    slug: "contraincendio",
+    title: "Sistemas contra incendio",
+    description:
+      "Diseño, instalación y mantenimiento bajo normas NFPA: redes de rociadores, gabinetes, bombas contra incendio, detección y alarma, agentes limpios, protección pasiva, escaleras presurizadas y extracción de monóxido. Emitimos certificado de operatividad.",
+    symptoms: [
+      { id: "certificado", label: "Necesita el certificado de operatividad del sistema contra incendio" },
+      { id: "bomba-ci", label: "La bomba contra incendio o la jockey no arranca en la prueba" },
+      { id: "detectores", label: "El panel de alarma marca fallas o los detectores no responden" },
+      { id: "itse", label: "La inspección de Defensa Civil (ITSE) observó el sistema" },
+    ],
+  },
+  {
+    code: "02",
     slug: "bombeo",
     title: "Sistemas hidroneumáticos y cisternas",
     description:
@@ -101,7 +118,18 @@ const services: Specialty[] = [
     ],
   },
   {
-    code: "02",
+    code: "03",
+    slug: "estructuras",
+    title: "Estructuras metálicas y soldadura",
+    description:
+      "Fabricación y montaje de estructuras metálicas, trabajos en acero inoxidable y soldadura MIG, TIG y plasma. Fabricamos maquinaria y estructuras industriales a medida.",
+    symptoms: [
+      { id: "fabricar-estructura", label: "Necesita fabricar o reforzar una estructura o soporte metálico" },
+      { id: "inox", label: "Trabajos en acero inoxidable con soldadura TIG o MIG" },
+    ],
+  },
+  {
+    code: "04",
     slug: "acondicionamiento",
     title: "Acondicionamiento de edificios",
     ciiu: "CIIU 4329",
@@ -114,11 +142,11 @@ const services: Specialty[] = [
     ],
   },
   {
-    code: "03",
+    code: "05",
     slug: "redes",
     title: "Redes sanitarias y eléctricas",
     description:
-      "Solución de fugas complejas, tuberías en termofusión (PPR) y PVC pesado, balanceo de cargas eléctricas y mantenimiento de tableros generales.",
+      "Solución de fugas complejas, tuberías en termofusión (PPR) y PVC pesado, balanceo de cargas eléctricas y mantenimiento de tableros generales. Sistemas de vapor, aire comprimido y gas.",
     symptoms: [
       { id: "fuga", label: "Fuga o humedad sin origen visible" },
       { id: "termicas", label: "Llaves térmicas que saltan con frecuencia" },
@@ -126,12 +154,12 @@ const services: Specialty[] = [
     ],
   },
   {
-    code: "04",
+    code: "06",
     slug: "suministro",
     title: "Suministro y equipos refaccionados",
     ciiu: "CIIU 4774",
     description:
-      "Venta e instalación de motores, electrobombas y equipamiento técnico reacondicionado con garantía operativa.",
+      "Venta e instalación de bombas contra incendio, electrobombas, tanques hidroneumáticos, tableros de control y equipamiento reacondicionado con garantía operativa.",
     symptoms: [
       { id: "equipo-parado", label: "Motor o electrobomba fuera de servicio" },
       { id: "reemplazo", label: "Necesita un equipo de reemplazo con garantía" },
@@ -155,19 +183,19 @@ export const kgm: KgmData = {
     basePath: "/kgm",
   },
   seo: {
-    title: "KGM INDUSTRIAS E.I.R.L. | Ingeniería de mantenimiento en Lima",
+    title: "KGM INDUSTRIAS E.I.R.L. | Sistemas contra incendio y bombeo en Lima",
     description:
-      "Mantenimiento de sistemas de bombeo, acondicionamiento de edificios y redes sanitarias y eléctricas en Lima. Proveedor habilitado RNP, personal con SCTR vigente. Operando desde 2014.",
-    keywords: ["mantenimiento de bombas", "sistemas hidroneumáticos", "cisternas", "acondicionamiento de edificios", "RNP", "Lima"],
+      "Diseño, instalación y mantenimiento de sistemas contra incendio (NFPA), bombeo, redes y estructuras metálicas en Lima. Certificados de operatividad. Más de 15 años de trayectoria.",
+    keywords: ["sistemas contra incendio", "certificado de operatividad", "NFPA 25", "rociadores", "detección de humo", "estructuras metálicas", "mantenimiento de bombas", "sistemas hidroneumáticos", "cisternas", "acondicionamiento de edificios", "RNP", "Lima"],
   },
   sections: [
     {
       href: "/",
       code: "01",
       label: "Inicio",
-      title: "KGM INDUSTRIAS E.I.R.L. | Ingeniería de mantenimiento en Lima",
+      title: "KGM INDUSTRIAS E.I.R.L. | Sistemas contra incendio y bombeo en Lima",
       description:
-        "Mantenimiento de sistemas de bombeo, acondicionamiento de edificios y redes sanitarias y eléctricas en Lima desde 2014.",
+        "Sistemas contra incendio, bombeo, estructuras metálicas y redes para edificios e industria en Lima. Más de 15 años de trayectoria.",
     },
     {
       href: "/especialidades/",
@@ -175,7 +203,7 @@ export const kgm: KgmData = {
       label: "Especialidades",
       title: "Especialidades",
       description:
-        "Sistemas hidroneumáticos y cisternas, acondicionamiento de edificios, redes sanitarias y eléctricas, y suministro de equipos refaccionados.",
+        "Sistemas contra incendio, bombeo y cisternas, estructuras metálicas y soldadura, acondicionamiento de edificios, redes y suministro de equipos.",
     },
     {
       href: "/protocolo/",
@@ -190,7 +218,7 @@ export const kgm: KgmData = {
       code: "04",
       label: "Trabajos",
       title: "Trabajos realizados",
-      description: "Registro fotográfico de mantenimientos, remodelaciones y redes ejecutadas por KGM en Lima.",
+      description: "Obras de referencia y registro fotográfico de sistemas contra incendio, bombeo y estructuras ejecutados por KGM en Lima.",
     },
     {
       href: "/cotizacion/",
@@ -205,10 +233,10 @@ export const kgm: KgmData = {
     cta: "Solicitar cotización",
   },
   hero: {
-    eyebrow: "Operaciones en Lima desde 2014",
-    headline: "Ingeniería de mantenimiento, sistemas de bombeo y acondicionamiento de infraestructura.",
+    eyebrow: "Más de 15 años de trayectoria en Lima",
+    headline: "Sistemas contra incendio, bombeo y estructuras metálicas para edificios e industria.",
     summary:
-      "Atendemos edificios residenciales, oficinas corporativas e instituciones del Estado en Lima Metropolitana, con alcance y costo fijados por escrito antes de intervenir.",
+      "Diseñamos, instalamos y mantenemos sistemas contra incendio bajo normas NFPA, con alcance y costo fijados por escrito antes de intervenir. Nuestros últimos proyectos superan los 37 pisos.",
     primaryCta: "Solicitar cotización técnica",
     secondaryCta: "Ver especialidades",
     credentialsTitle: "Ficha técnica",
@@ -217,14 +245,14 @@ export const kgm: KgmData = {
     { label: "Razón social", value: "KGM INDUSTRIAS E.I.R.L." },
     { label: "RUC", value: "20556454346" },
     { label: "Estado SUNAT", value: "ACTIVO / HABIDO" },
-    { label: "Inicio de operaciones", value: "Julio de 2014" },
+    { label: "Trayectoria", value: "Más de 15 años" },
     { label: "Registro estatal", value: "Proveedor habilitado RNP (OSCE)" },
     { label: "Cobertura laboral", value: "Personal con SCTR vigente" },
     { label: "Situación tributaria", value: "Sin deuda coactiva SUNAT" },
     { label: "Sede operativa", value: "Av. La Paz 2420, Urb. Miramar, San Miguel, Lima" },
   ],
   services: {
-    title: "Cuatro especialidades, un mismo estándar de ejecución.",
+    title: "Seis especialidades, un mismo estándar de ejecución.",
     intro: "Cada frente de trabajo se cotiza y se entrega con especificaciones técnicas y conformidad por escrito.",
     items: services,
   },
@@ -234,12 +262,42 @@ export const kgm: KgmData = {
     intro: "Registro fotográfico de intervenciones en edificios, oficinas e instituciones de Lima.",
     // TODO: colocar las fotos en public/galeria/ y completar src (y opcionalmente lqip).
     items: [
-      { src: "", alt: "Cuarto de bombas con electrobombas y tablero alternador", caption: "Mantenimiento de electrobombas y tablero alternador", specialty: "bombeo" },
-      { src: "", alt: "Cisterna limpia después de la desinfección", caption: "Limpieza y desinfección de cisterna", specialty: "bombeo" },
-      { src: "", alt: "Oficina remodelada con divisiones de drywall", caption: "Remodelación de oficinas en drywall", specialty: "acondicionamiento" },
-      { src: "", alt: "Piso con pintura epóxica en área industrial", caption: "Pintura epóxica en piso industrial", specialty: "acondicionamiento" },
+      { src: "", alt: "Red de rociadores automáticos instalada en techo", caption: "Red de rociadores automáticos", specialty: "contraincendio" },
+      { src: "", alt: "Cuarto de bombas contra incendio con bomba principal y jockey", caption: "Cuarto de bombas contra incendio", specialty: "contraincendio" },
+      { src: "", alt: "Panel de detección y alarma contra incendio", caption: "Panel de detección y alarma", specialty: "contraincendio" },
+      { src: "", alt: "Cuarto de bombas con electrobombas y tablero alternador", caption: "Electrobombas y tablero alternador", specialty: "bombeo" },
+      { src: "", alt: "Estructura metálica soldada en planta industrial", caption: "Estructura metálica soldada", specialty: "estructuras" },
       { src: "", alt: "Tablero eléctrico general después del mantenimiento", caption: "Mantenimiento de tablero general", specialty: "redes" },
-      { src: "", alt: "Tuberías de termofusión PPR instaladas", caption: "Red de agua en termofusión PPR", specialty: "redes" },
+    ],
+  },
+  references: {
+    buildingsTitle: "Obras de referencia",
+    // Fuente: brochure KGM 2025.
+    buildings: [
+      { name: "Edificio Tempo", detail: "38 pisos" },
+      { name: "Edificio Switch", detail: "20 pisos" },
+      { name: "Edificio Sky Tower", detail: "Magdalena" },
+      { name: "Edificio B-51", detail: "Miraflores" },
+      { name: "Edificio Allegro" },
+      { name: "Edificio Homelife" },
+      { name: "Edificio Bonavi" },
+      { name: "Edificio Qupula" },
+      { name: "Edificio Tudela" },
+      { name: "Edificio Salazar" },
+    ],
+    clientsTitle: "Han confiado en KGM",
+    clients: [
+      "Viviendas del Perú S.A.C.",
+      "Inversiones Pamarena S.A.C.",
+      "Constructora Wong S.A.C.",
+      "Constructora Urbana Perú",
+      "Constructora Kacegui S.A.C.",
+      "Consorcio Chilca (Planta SATECI)",
+      "Smart Pharma",
+      "Tiendas Lancaster",
+      "Universidad Privada San Juan Bautista",
+      "Colegio Hiram Bingham",
+      "Instituto de Cocina D'Gallia",
     ],
   },
   diagnosis: {
@@ -264,26 +322,24 @@ export const kgm: KgmData = {
     steps: [
       { code: "01", title: "Inspección técnica en sitio", description: "Visita de campo para diagnosticar el estado real de la instalación." },
       { code: "02", title: "Presupuesto transparente", description: "Cotización por hitos y especificaciones de marca, sin partidas ocultas." },
-      { code: "03", title: "Ejecución asegurada", description: "Trabajo cubierto por SCTR y entrega con acta de conformidad." },
+      { code: "03", title: "Ejecución asegurada", description: "Trabajo cubierto por SCTR y entrega con acta de conformidad; en sistemas contra incendio, con certificado de operatividad." },
     ],
   },
   contact: {
     title: "Cotización técnica",
     intro: "Describa la instalación y el alcance. Respondemos con una fecha para la inspección en sitio.",
     legalTitle: "Sede legal y operativa",
-    labels: { address: "Dirección", email: "Correo", phone: "Teléfono", whatsapp: "WhatsApp", hours: "Horario" },
+    labels: { address: "Dirección", email: "Correo", phone: "Celular", landline: "Teléfono fijo", whatsapp: "WhatsApp", hours: "Horario" },
     address: "Av. La Paz 2420, Urb. Miramar, San Miguel, Lima, Perú",
-    // TODO: confirmar que este buzón existe y recibe correo antes de publicar.
-    email: "contacto@kgmindustrias.com.pe",
+    email: "kgm-industrias@hotmail.com",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Av.+La+Paz+2420+San+Miguel+Lima",
     // TODO: crear el formulario en Formspree (o similar) y pegar aquí su URL, ej. "https://formspree.io/f/xxxxxx".
     formEndpoint: "",
     // TODO: URL del Libro de Reclamaciones virtual.
     complaintsBookUrl: "",
-    // TODO: completar con el número real. Vacío = no se muestra.
-    phone: "",
-    // TODO: completar con el número de WhatsApp (solo dígitos, con 51). Vacío = no se muestra.
-    whatsapp: "",
+    phone: "998 075 193",
+    landline: "(01) 726-4011",
+    whatsapp: "51998075193",
     hours: "Lunes a viernes, 8:00 a 18:00",
     form: {
       name: "Nombre y apellido",
@@ -307,7 +363,7 @@ export const kgm: KgmData = {
   footerNote: "Todos los derechos reservados.",
   footer: {
     about:
-      "Mantenimiento de sistemas de bombeo, acondicionamiento de edificios y redes sanitarias y eléctricas en Lima Metropolitana desde 2014.",
+      "Sistemas contra incendio, bombeo, estructuras metálicas y redes para edificios e industria en Lima. Más de 15 años de trayectoria.",
   },
 };
 

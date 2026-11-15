@@ -13,7 +13,7 @@ const config: Config = {
         ink: "#000000", // negro de marca
         graphite: "#24272B", // texto largo y pie de página
         muted: "#5A6067", // texto secundario
-        accent: { DEFAULT: "#C8102E", hover: "#A00C24" }, // rojo KGM
+        accent: { DEFAULT: "#C21A1F", hover: "#9C1418" }, // rojo KGM (logo oficial)
         grain: "#D3D6D9", // líneas finas
         rule: "#AEB3B8", // bordes de campos y hover de bordes
         signal: "#2F7A4F", // estado "disponible"

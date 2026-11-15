@@ -5,7 +5,7 @@
 
 const INK = "#24272B";
 const MUTED = "#5A6067";
-const ACCENT = "#C8102E";
+const ACCENT = "#C21A1F";
 const PAPER = "#F8F8F9";
 const SURFACE = "#E2E4E6";
 const GRAIN = "#D3D6D9";
@@ -385,6 +385,122 @@ export function PrecisionGearsDiagram() {
       <text x="240" y="318" textAnchor="middle" fontSize="9" fill={INK}>
         SUMINISTRO, INSTALACIÓN Y REBOBINADO DE MOTORES Y ELECTROBOMBAS
       </text>
+    </svg>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Sistema contra incendio: red húmeda de rociadores, detección y bombas
+// ---------------------------------------------------------------------------
+export function FireSprinklerDiagram() {
+  const heads = [130, 230, 330, 430];
+  return (
+    <svg {...svgProps} aria-label="Red húmeda de rociadores con detectores de humo, bomba principal, bomba jockey y válvula siamesa">
+      <Grid id="grid5" />
+
+      {/* Losa y detectores de humo */}
+      <line x1="20" y1="58" x2="520" y2="58" stroke={INK} strokeWidth="2" />
+      {[180, 380].map((x) => (
+        <g key={x}>
+          <rect x={x - 13} y="58" width="26" height="8" rx="2" fill={PAPER} stroke={INK} strokeWidth="1" />
+          <circle className="pulse-dot" cx={x} cy="62" r="2" fill={ACCENT} />
+        </g>
+      ))}
+      <text x="393" y="80" fontSize="8" fill={MUTED}>DETECTOR DE HUMO</text>
+
+      {/* Ramal principal y montante */}
+      <line x1="60" y1="96" x2="470" y2="96" stroke={ACCENT} strokeWidth="5" />
+      <line x1="60" y1="96" x2="470" y2="96" className="pulse-flow-anim" stroke={PAPER} strokeWidth="1.5" />
+      <line x1="60" y1="96" x2="60" y2="268" stroke={ACCENT} strokeWidth="5" />
+      <line x1="60" y1="268" x2="60" y2="96" className="pulse-flow-anim" stroke={PAPER} strokeWidth="1.5" />
+
+      {/* Rociadores colgantes con su patrón de descarga */}
+      {heads.map((x) => (
+        <g key={x}>
+          <line x1={x} y1="96" x2={x} y2="116" stroke={INK} strokeWidth="2" />
+          <path d={`M ${x - 6} 116 H ${x + 6} L ${x + 3} 122 H ${x - 3} Z`} fill={INK} />
+          <line x1={x - 9} y1="125" x2={x + 9} y2="125" stroke={INK} strokeWidth="1.5" />
+          {[-34, -17, 0, 17, 34].map((dx) => (
+            <line key={dx} x1={x} y1="127" x2={x + dx} y2="182" stroke={ACCENT} strokeWidth="0.75" strokeDasharray="2 3" strokeOpacity="0.7" />
+          ))}
+        </g>
+      ))}
+      <text x="135" y="200" fontSize="8" fill={MUTED}>ROCIADOR COLGANTE · 68 °C</text>
+
+      {/* Gabinete */}
+      <rect x="440" y="196" width="62" height="58" fill={PAPER} stroke={INK} strokeWidth="1.25" />
+      <circle cx="471" cy="225" r="16" fill="none" stroke={ACCENT} strokeWidth="2" />
+      <circle cx="471" cy="225" r="9" fill="none" stroke={ACCENT} strokeWidth="1" />
+      <line x1="470" y1="96" x2="470" y2="196" stroke={ACCENT} strokeWidth="3" />
+      <text x="471" y="268" textAnchor="middle" fontSize="8" fill={MUTED}>GABINETE · MANGUERA</text>
+
+      {/* Cuarto de bombas */}
+      <rect x="40" y="268" width="210" height="44" fill={PAPER} stroke={INK} strokeWidth="1.25" />
+      <circle cx="90" cy="290" r="15" fill="none" stroke={INK} strokeWidth="1.25" />
+      <circle cx="90" cy="290" r="4" fill={INK} />
+      <text x="112" y="287" fontSize="8.5" fill={INK} fontWeight="bold">BOMBA PRINCIPAL</text>
+      <text x="112" y="299" fontSize="8" fill={MUTED}>+ bomba jockey · tablero</text>
+      <circle cx="225" cy="290" r="8" fill="none" stroke={INK} strokeWidth="1" />
+
+      {/* Válvula siamesa en fachada */}
+      <line x1="250" y1="290" x2="330" y2="290" stroke={ACCENT} strokeWidth="3" />
+      <path d="M 330 278 L 352 290 L 330 302 Z" fill={PAPER} stroke={INK} strokeWidth="1.25" />
+      <circle cx="364" cy="283" r="6" fill="none" stroke={INK} strokeWidth="1.25" />
+      <circle cx="364" cy="297" r="6" fill="none" stroke={INK} strokeWidth="1.25" />
+      <text x="378" y="294" fontSize="8" fill={MUTED}>VÁLVULA SIAMESA</text>
+
+      <text x="270" y="330" textAnchor="middle" fontSize="9" fill={INK}>RED HÚMEDA DE ROCIADORES · DETECCIÓN Y ALARMA</text>
+    </svg>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Estructuras metálicas: unión soldada de viga y columna
+// ---------------------------------------------------------------------------
+export function WeldedStructureDiagram() {
+  return (
+    <svg {...svgProps} aria-label="Unión soldada entre una columna y una viga de perfil H, con cartela y cordón de soldadura">
+      <Grid id="grid6" />
+
+      {/* Columna de perfil H (alas y alma) */}
+      <rect x="120" y="45" width="14" height="275" fill={SURFACE} stroke={INK} strokeWidth="1.25" />
+      <rect x="134" y="45" width="40" height="275" fill={PAPER} stroke={INK} strokeWidth="1" />
+      <rect x="174" y="45" width="14" height="275" fill={SURFACE} stroke={INK} strokeWidth="1.25" />
+      <text x="154" y="335" textAnchor="middle" fontSize="8.5" fill={MUTED}>COLUMNA · PERFIL H</text>
+
+      {/* Viga */}
+      <rect x="188" y="120" width="290" height="12" fill={SURFACE} stroke={INK} strokeWidth="1.25" />
+      <rect x="188" y="132" width="290" height="44" fill={PAPER} stroke={INK} strokeWidth="1" />
+      <rect x="188" y="176" width="290" height="12" fill={SURFACE} stroke={INK} strokeWidth="1.25" />
+      <text x="400" y="112" fontSize="8.5" fill={MUTED}>VIGA · PERFIL H</text>
+
+      {/* Cartela */}
+      <path d="M 188 188 L 188 250 L 250 188 Z" fill={PAPER} stroke={INK} strokeWidth="1.25" />
+      <text x="222" y="262" fontSize="8" fill={MUTED}>CARTELA</text>
+
+      {/* Cordones de soldadura (se trazan en bucle) */}
+      <path className="trace-cota-anim" d="M 192 120 L 192 188 L 192 250 L 250 192" fill="none" stroke={ACCENT} strokeWidth="3" strokeLinecap="round" />
+      <path d="M 196 124 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4 l -4 4 l 4 4" fill="none" stroke={ACCENT} strokeWidth="1" />
+
+      {/* Símbolo de soldadura con su flecha de referencia */}
+      <line x1="252" y1="214" x2="320" y2="244" stroke={INK} strokeWidth="1" />
+      <line x1="320" y1="244" x2="420" y2="244" stroke={INK} strokeWidth="1" />
+      <path d="M 352 244 L 364 232 L 364 244" fill="none" stroke={INK} strokeWidth="1.25" />
+      <path d="M 250 210 l 8 2 l -5 5 Z" fill={INK} />
+      <text x="372" y="238" fontSize="9" fill={ACCENT} fontWeight="bold">6</text>
+      <text x="326" y="260" fontSize="8.5" fill={INK} fontWeight="bold">CORDÓN DE FILETE</text>
+      <text x="326" y="273" fontSize="8" fill={MUTED}>MIG · TIG · corte por plasma</text>
+
+      {/* Pernos de anclaje en la base */}
+      <line x1="90" y1="320" x2="220" y2="320" stroke={INK} strokeWidth="2" />
+      {[104, 206].map((x) => (
+        <g key={x}>
+          <line x1={x} y1="308" x2={x} y2="332" stroke={INK} strokeWidth="2" />
+          <rect x={x - 5} y="304" width="10" height="5" fill={INK} />
+        </g>
+      ))}
+
+      <text x="400" y="314" textAnchor="middle" fontSize="9" fill={INK}>UNIÓN SOLDADA VIGA–COLUMNA</text>
     </svg>
   );
 }
