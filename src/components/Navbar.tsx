@@ -83,11 +83,10 @@ function NavLink({
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`relative inline-flex items-center font-label text-sm transition-colors ${compact ? "min-h-11 px-1" : "py-1"} ${
-        active
-          ? `font-semibold text-ink after:absolute after:inset-x-0 after:h-[2px] after:bg-accent ${compact ? "after:bottom-0" : "after:-bottom-1"}`
-          : "text-muted hover:text-ink"
-      }`}
+      // El subrayado rojo se dibuja de izquierda a derecha al pasar el cursor y queda fijo en la sección activa.
+      className={`relative inline-flex items-center font-label text-sm transition-colors after:absolute after:inset-x-0 after:h-[2px] after:origin-left after:bg-accent after:transition-transform after:duration-300 ${
+        compact ? "min-h-11 px-1 after:bottom-0" : "py-1 after:-bottom-1"
+      } ${active ? "font-semibold text-ink after:scale-x-100" : "text-muted after:scale-x-0 hover:text-ink hover:after:scale-x-100"}`}
     >
       {children}
     </Link>

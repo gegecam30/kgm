@@ -78,9 +78,6 @@ export default function ServicesGrid() {
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-10 grid gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 text-sm text-muted">
-              Ingeniería aplicada
-            </p>
             <h1 className="text-balance font-display text-4xl font-semibold leading-none sm:text-5xl lg:text-6xl">
               {services.title}
             </h1>
@@ -114,22 +111,17 @@ export default function ServicesGrid() {
                   onKeyDown={(e) => onKeyDown(e, i)}
                   className={`animate-hydraulic-${i} relative w-[14.5rem] shrink-0 snap-start rounded-[2px] border p-4 text-left transition-colors lg:w-auto lg:p-5 ${
                     selected
-                      ? "border-accent bg-paper before:absolute before:inset-y-3 before:left-0 before:w-[3px] before:bg-accent"
+                      ? "border-accent bg-paper shadow-[0_8px_20px_-14px_rgba(0,0,0,0.5)]"
                       : "border-grain bg-surface/40 hover:border-rule hover:bg-surface"
                   }`}
                 >
-                  <span className="flex items-baseline justify-between gap-4">
-                    <span className={`font-display text-2xl tracking-tight lg:text-3xl ${selected ? "text-accent" : "text-ink"}`}>
-                      {s.code}
-                    </span>
+                  <span className="flex items-baseline justify-between gap-3">
+                    <span className="block font-display text-lg font-semibold leading-snug text-ink lg:text-xl">{s.title}</span>
                     {s.ciiu && (
-                      <span className="rounded-[2px] border border-grain px-1.5 py-0.5 font-label text-sm tabular-nums text-muted">
+                      <span className="shrink-0 rounded-[2px] border border-grain px-1.5 py-0.5 font-label text-sm tabular-nums text-muted">
                         {s.ciiu}
                       </span>
                     )}
-                  </span>
-                  <span className="mt-2 block font-display text-base font-medium leading-snug tracking-tight text-ink lg:mt-2.5 lg:text-lg">
-                    {s.title}
                   </span>
                   <span className={`mt-1.5 hidden text-sm leading-relaxed text-muted lg:block ${selected ? "" : "lg:line-clamp-2"}`}>
                     {s.description}
@@ -147,7 +139,6 @@ export default function ServicesGrid() {
           >
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-grain pb-4">
               <div>
-                <p className="font-label text-sm font-medium text-accent">Esquema {current.code}</p>
                 <h2 className="mt-1 font-display text-2xl font-semibold text-ink sm:text-3xl">{current.title}</h2>
               </div>
               <p className="font-label text-sm text-muted">Esquema ilustrativo · sin escala</p>
@@ -179,7 +170,7 @@ export default function ServicesGrid() {
               </div>
             </figure>
             <p className="mt-2 flex items-center gap-2 font-label text-sm text-muted sm:hidden">
-              <span aria-hidden>↔</span> Deslice para recorrer el esquema completo
+              <svg aria-hidden viewBox="0 0 20 12" className="h-3 w-5" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 6h18M5 2 1 6l4 4M15 2l4 4-4 4" /></svg> Deslice para recorrer el esquema completo
             </p>
             <p className="mt-2 text-xs leading-relaxed text-muted sm:mt-3">
               Dibujo de referencia. Las cifras son orientativas y no corresponden a una instalación concreta.

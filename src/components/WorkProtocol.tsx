@@ -9,7 +9,6 @@ export default function WorkProtocol() {
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-14 grid items-end gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 text-sm text-muted">Garantía operativa y mitigación de riesgos</p>
             <h1 className="font-display text-4xl font-semibold leading-none text-ink sm:text-5xl lg:text-6xl">{protocol.title}</h1>
           </div>
           <p className="max-w-[52ch] text-base leading-relaxed text-graphite lg:col-span-5">{protocol.intro}</p>
@@ -39,7 +38,7 @@ export default function WorkProtocol() {
           </div>
           <ul className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {protocol.risks.map((r) => (
-              <li key={r.title} className="border-l-[3px] border-steel pl-4">
+              <li key={r.title} className="border-t-2 border-steel pt-3">
                 <p className="font-display text-xl font-semibold text-ink">{r.title}</p>
                 <p className="mt-1 text-sm leading-relaxed text-graphite">{r.description}</p>
               </li>

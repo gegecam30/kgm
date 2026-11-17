@@ -109,9 +109,6 @@ export default function QuoteSection() {
     <section className="py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-12 border-b border-grain pb-8">
-          <p className="mb-3 text-sm text-muted">
-              Atención directa en Lima Metropolitana
-          </p>
           <h1 className="font-display text-4xl font-semibold leading-none sm:text-5xl lg:text-6xl">{contact.title}</h1>
           <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-muted">{contact.intro}</p>
         </header>
@@ -167,12 +164,12 @@ export default function QuoteSection() {
                 </p>
                 <div role="status" aria-live="polite">
                   {status === "ok" && (
-                    <div className="rounded-[2px] border-l-[3px] border-signal bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
+                    <div className="rounded-[2px] border border-signal bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
                       {form.sentOk}
                     </div>
                   )}
                   {(status === "sent" || status === "error") && (
-                    <div className="rounded-[2px] border-l-[3px] border-accent bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
+                    <div className="rounded-[2px] border border-accent bg-paper px-4 py-3 text-sm leading-relaxed text-ink">
                       {status === "sent" && <p>{form.success}</p>}
                       <p className={status === "sent" ? "mt-1 text-muted" : ""}>
                         {status === "sent" ? form.fallback : form.error}{" "}
@@ -230,7 +227,7 @@ export default function QuoteSection() {
                   <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-signal" />
                   Escribir por WhatsApp
                 </span>
-                <span aria-hidden>↗</span>
+                <svg aria-hidden viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M5 11 11 5M6 5h5v5" /></svg>
               </a>
             )}
           </aside>

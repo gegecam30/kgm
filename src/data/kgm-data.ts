@@ -199,7 +199,7 @@ export const kgm: KgmData = {
       label: "Inicio",
       title: "KGM INDUSTRIAS E.I.R.L. | Sistemas contra incendio y bombeo en Lima",
       description:
-        "Sistemas contra incendio, bombeo, estructuras metálicas y redes para edificios e industria en Lima. Más de 15 años de trayectoria.",
+        "Sistemas contra incendio, bombeo, estructuras metálicas y redes para edificios e industria en Lima.",
     },
     {
       href: "/especialidades/",
@@ -257,7 +257,7 @@ export const kgm: KgmData = {
     { label: "Sede operativa", value: "Av. La Paz 2420, Urb. Miramar, San Miguel, Lima" },
   ],
   services: {
-    title: "Seis especialidades, un mismo estándar de ejecución.",
+    title: "Qué instalamos y mantenemos",
     intro: "Cada frente de trabajo se cotiza y se entrega con especificaciones técnicas y conformidad por escrito.",
     items: services,
   },
@@ -290,7 +290,7 @@ export const kgm: KgmData = {
       { name: "Edificio Tudela" },
       { name: "Edificio Salazar" },
     ],
-    clientsTitle: "Han confiado en KGM",
+    clientsTitle: "Clientes",
     clients: [
       "Viviendas del Perú S.A.C.",
       "Inversiones Pamarena S.A.C.",
@@ -326,8 +326,8 @@ export const kgm: KgmData = {
     stepsTitle: "Flujo en tres etapas",
     steps: [
       { code: "01", title: "Inspección técnica en sitio", description: "Visita de campo para diagnosticar el estado real de la instalación." },
-      { code: "02", title: "Presupuesto transparente", description: "Cotización por hitos y especificaciones de marca, sin partidas ocultas." },
-      { code: "03", title: "Ejecución asegurada", description: "Trabajo cubierto por SCTR y entrega con acta de conformidad; en sistemas contra incendio, con certificado de operatividad." },
+      { code: "02", title: "Presupuesto por hitos", description: "Cada partida con su marca y especificación, aprobada por escrito antes de empezar." },
+      { code: "03", title: "Ejecución y entrega", description: "Trabajo cubierto por SCTR y entrega con acta de conformidad; en sistemas contra incendio, con certificado de operatividad." },
     ],
   },
   contact: {

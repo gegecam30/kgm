@@ -3,9 +3,6 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
-      <p className="mb-6 text-sm text-muted">
-              Error 404
-      </p>
       <h1 className="max-w-[22ch] font-display text-4xl leading-tight tracking-tight sm:text-5xl">
         Esta página no existe o cambió de dirección.
       </h1>

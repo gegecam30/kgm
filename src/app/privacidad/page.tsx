@@ -12,7 +12,6 @@ export default function Page() {
   const { identity, contact } = kgm;
   return (
     <section className="mx-auto max-w-3xl px-6 py-12 lg:py-20">
-      <p className="mb-3 text-sm text-muted">Datos personales</p>
       <h1 className="font-display text-3xl sm:text-4xl">Política de privacidad</h1>
 
       <div className="mt-8 grid gap-6 text-base leading-relaxed text-ink [&_h2]:font-display [&_h2]:text-lg [&_p]:text-muted">

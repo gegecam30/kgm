@@ -35,7 +35,7 @@ export default function HeroEditorial() {
                 {hero.secondaryCta}
               </Link>
             </div>
-            <p className="mt-8 max-w-[56ch] border-l-[3px] border-accent pl-4 text-[0.95rem] leading-relaxed text-muted">{hero.proof}</p>
+            <p className="mt-8 max-w-[56ch] text-[0.95rem] leading-relaxed text-muted">{hero.proof}</p>
           </div>
 
           {/* Placa de características: la ficha de la empresa se presenta como la placa remachada de un equipo */}

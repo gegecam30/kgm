@@ -25,9 +25,6 @@ export default function QuickDiagnosis() {
       <div className="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:py-16">
         <header className="mb-8 grid gap-4 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 text-sm text-muted">
-              {diagnosis.eyebrow}
-            </p>
             <h2 id="diagnostico" className="text-balance font-display text-2xl tracking-tight sm:text-3xl">
               {diagnosis.title}
             </h2>
@@ -41,7 +38,6 @@ export default function QuickDiagnosis() {
             return (
               <fieldset key={s.slug} className={`min-w-0 p-5 transition-colors ${highlighted ? "bg-paper" : "bg-canvas"}`}>
                 <legend className="float-left mb-4 flex w-full items-baseline gap-2 font-label text-sm">
-                  <span className={highlighted ? "font-semibold text-accent" : "text-muted"}>{s.code}</span>
                   <span className="text-ink">{s.title}</span>
                 </legend>
                 <ul className="clear-left grid gap-2">

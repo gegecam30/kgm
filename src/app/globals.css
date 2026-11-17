@@ -79,6 +79,37 @@
     outline: 2px solid rgb(var(--accent));
     outline-offset: 2px;
   }
+  /* Superficies del navegador con los colores de la marca */
+  html {
+    scrollbar-color: rgb(var(--rule)) rgb(var(--canvas));
+    accent-color: rgb(var(--accent));
+  }
+  input,
+  textarea {
+    caret-color: rgb(var(--accent));
+  }
+}
+
+/* Botones: suben 1px al pasar el cursor y se hunden al hacer clic */
+a.bg-accent,
+button.bg-accent,
+a.border-ink,
+button[type="submit"] {
+  transition-property: color, background-color, border-color, transform, box-shadow;
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+a.bg-accent:hover,
+button.bg-accent:hover,
+a.border-ink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px -8px rgb(var(--accent) / 0.6);
+}
+a.bg-accent:active,
+button.bg-accent:active,
+a.border-ink:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: none;
 }
 
 /* Texto de los esquemas SVG en la condensada del sitio */

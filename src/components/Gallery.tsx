@@ -15,7 +15,6 @@ export default function Gallery() {
       <div className="mx-auto max-w-7xl px-6">
         <header className="mb-10 grid gap-6 border-b border-grain pb-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="mb-3 text-sm text-muted">{gallery.eyebrow}</p>
             <h1 id="trabajos-titulo" className="text-balance font-display text-4xl font-semibold leading-none text-ink sm:text-5xl lg:text-6xl">
               {gallery.title}
             </h1>
@@ -74,12 +73,12 @@ export default function Gallery() {
               {/* Al pasar el cursor la tarjeta se eleva, la foto se acerca y aparece el filo rojo */}
               <Link
                 href={`/trabajos/${item.slug}/`}
-                className="group block transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:-translate-y-1"
+                className="group block transition-transform duration-300 ease-out hover:-translate-y-0.5 focus-visible:-translate-y-0.5"
               >
                 <figure>
                   <div className="overflow-hidden border border-steel p-1.5 transition-[border-color,box-shadow] duration-300 group-hover:border-accent group-hover:shadow-[0_18px_30px_-18px_rgba(0,0,0,0.55)] group-focus-visible:border-accent">
                     <div className="overflow-hidden">
-                      <div className="transition-transform duration-500 ease-out group-hover:scale-[1.05] group-focus-visible:scale-[1.05]">
+                      <div className="transition-transform duration-500 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03]">
                         <Photo item={item} />
                       </div>
                     </div>
